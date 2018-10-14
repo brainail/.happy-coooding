@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>1.cc</title>
+<style type="text/css">
+.enscript-comment { font-style: italic; color: rgb(178,34,34); }
+.enscript-function-name { font-weight: bold; color: rgb(0,0,255); }
+.enscript-variable-name { font-weight: bold; color: rgb(184,134,11); }
+.enscript-keyword { font-weight: bold; color: rgb(160,32,240); }
+.enscript-reference { font-weight: bold; color: rgb(95,158,160); }
+.enscript-string { font-weight: bold; color: rgb(188,143,143); }
+.enscript-builtin { font-weight: bold; color: rgb(218,112,214); }
+.enscript-type { font-weight: bold; color: rgb(34,139,34); }
+.enscript-highlight { text-decoration: underline; color: 0; }
+</style>
+</head>
+<body id="top">
+<h1 style="margin:8px;" id="f1">1.cc&nbsp;&nbsp;&nbsp;<span style="font-weight: normal; font-size: 0.5em;">[<a href="?txt">plain text</a>]</span></h1>
+<hr/>
+<div></div>
+<pre>
+<span class="enscript-comment">// 2002-04-28  Paolo Carlini  &lt;<a href="mailto:pcarlini@unitus.it">pcarlini@unitus.it</a>&gt;
+</span><span class="enscript-comment">//             Peter Schmid  &lt;<a href="mailto:schmid@snake.iap.physik.tu-darmstadt.de">schmid@snake.iap.physik.tu-darmstadt.de</a>&gt;
+</span>
+<span class="enscript-comment">// Copyright (C) 2002, 2004, 2005 Free Software Foundation, Inc.
+</span><span class="enscript-comment">//
+</span><span class="enscript-comment">// This file is part of the GNU ISO C++ Library.  This library is free
+</span><span class="enscript-comment">// software; you can redistribute it and/or modify it under the
+</span><span class="enscript-comment">// terms of the GNU General Public License as published by the
+</span><span class="enscript-comment">// Free Software Foundation; either version 2, or (at your option)
+</span><span class="enscript-comment">// any later version.
+</span>
+<span class="enscript-comment">// This library is distributed in the hope that it will be useful,
+</span><span class="enscript-comment">// but WITHOUT ANY WARRANTY; without even the implied warranty of
+</span><span class="enscript-comment">// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+</span><span class="enscript-comment">// GNU General Public License for more details.
+</span>
+<span class="enscript-comment">// You should have received a copy of the GNU General Public License along
+</span><span class="enscript-comment">// with this library; see the file COPYING.  If not, write to the Free
+</span><span class="enscript-comment">// Software Foundation, 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
+</span><span class="enscript-comment">// USA.
+</span>
+<span class="enscript-comment">// hash_set (SGI extension)
+</span>
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;ext/hash_set&gt;</span>
+
+<span class="enscript-type">void</span>
+<span class="enscript-function-name">test01</span>()
+{
+  <span class="enscript-type">bool</span> test __attribute__((unused)) = true;
+  <span class="enscript-type">const</span> <span class="enscript-type">int</span> werte[] = { 1, 25, 9, 16, -36};
+  <span class="enscript-type">const</span> <span class="enscript-type">int</span> anzahl = <span class="enscript-keyword">sizeof</span>(werte) / <span class="enscript-keyword">sizeof</span>(<span class="enscript-type">int</span>);
+  <span class="enscript-reference">__gnu_cxx</span>::hash_set&lt;<span class="enscript-type">int</span>&gt; intTable(werte, werte + anzahl);
+}
+                                       
+<span class="enscript-type">int</span> <span class="enscript-function-name">main</span>()
+{
+  test01();
+  <span class="enscript-keyword">return</span> 0;
+}
+</pre>
+<hr />
+</body></html>

@@ -1,0 +1,14 @@
+*.class
+*.out
+*dSym/
+launch.json
+tasks.json
+.idea/
+CMakeLists.txt
+cmake*/
+cmake-build-debug/*
+CMakeLists.txt
+.vscode/
+Competitions/_IDE/Topcoder/CodeArea/BinaryCalculator
+Interview/*/*.jar
+Interview/tech-interview-master

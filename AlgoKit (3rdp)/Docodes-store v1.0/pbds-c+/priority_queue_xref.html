@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>priority_queue_xref.cc</title>
+<style type="text/css">
+.enscript-comment { font-style: italic; color: rgb(178,34,34); }
+.enscript-function-name { font-weight: bold; color: rgb(0,0,255); }
+.enscript-variable-name { font-weight: bold; color: rgb(184,134,11); }
+.enscript-keyword { font-weight: bold; color: rgb(160,32,240); }
+.enscript-reference { font-weight: bold; color: rgb(95,158,160); }
+.enscript-string { font-weight: bold; color: rgb(188,143,143); }
+.enscript-builtin { font-weight: bold; color: rgb(218,112,214); }
+.enscript-type { font-weight: bold; color: rgb(34,139,34); }
+.enscript-highlight { text-decoration: underline; color: 0; }
+</style>
+</head>
+<body id="top">
+<h1 style="margin:8px;" id="f1">priority_queue_xref.cc&nbsp;&nbsp;&nbsp;<span style="font-weight: normal; font-size: 0.5em;">[<a href="?txt">plain text</a>]</span></h1>
+<hr/>
+<div></div>
+<pre>
+<span class="enscript-comment">// -*- C++ -*-
+</span>
+<span class="enscript-comment">// Copyright (C) 2005, 2006 Free Software Foundation, Inc.
+</span><span class="enscript-comment">//
+</span><span class="enscript-comment">// This file is part of the GNU ISO C++ Library.  This library is free
+</span><span class="enscript-comment">// software; you can redistribute it and/or modify it under the terms
+</span><span class="enscript-comment">// of the GNU General Public License as published by the Free Software
+</span><span class="enscript-comment">// Foundation; either version 2, or (at your option) any later
+</span><span class="enscript-comment">// version.
+</span>
+<span class="enscript-comment">// This library is distributed in the hope that it will be useful, but
+</span><span class="enscript-comment">// WITHOUT ANY WARRANTY; without even the implied warranty of
+</span><span class="enscript-comment">// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+</span><span class="enscript-comment">// General Public License for more details.
+</span>
+<span class="enscript-comment">// You should have received a copy of the GNU General Public License
+</span><span class="enscript-comment">// along with this library; see the file COPYING.  If not, write to
+</span><span class="enscript-comment">// the Free Software Foundation, 59 Temple Place - Suite 330, Boston,
+</span><span class="enscript-comment">// MA 02111-1307, USA.
+</span>
+<span class="enscript-comment">// As a special exception, you may use this file as part of a free
+</span><span class="enscript-comment">// software library without restriction.  Specifically, if other files
+</span><span class="enscript-comment">// instantiate templates or use macros or inline functions from this
+</span><span class="enscript-comment">// file, or you compile this file and link it with other files to
+</span><span class="enscript-comment">// produce an executable, this file does not by itself cause the
+</span><span class="enscript-comment">// resulting executable to be covered by the GNU General Public
+</span><span class="enscript-comment">// License.  This exception does not however invalidate any other
+</span><span class="enscript-comment">// reasons why the executable file might be covered by the GNU General
+</span><span class="enscript-comment">// Public License.
+</span>
+<span class="enscript-comment">// Copyright (C) 2004 Ami Tavory and Vladimir Dreizin, IBM-HRL.
+</span>
+<span class="enscript-comment">// Permission to use, copy, modify, sell, and distribute this software
+</span><span class="enscript-comment">// is hereby granted without fee, provided that the above copyright
+</span><span class="enscript-comment">// notice appears in all copies, and that both that copyright notice
+</span><span class="enscript-comment">// and this permission notice appear in supporting documentation. None
+</span><span class="enscript-comment">// of the above authors, nor IBM Haifa Research Laboratories, make any
+</span><span class="enscript-comment">// representation about the suitability of this software for any
+</span><span class="enscript-comment">// purpose. It is provided &quot;as is&quot; without express or implied
+</span><span class="enscript-comment">// warranty.
+</span>
+<span class="enscript-comment">/**
+ * @file priority_queue_xref_example.cpp
+ * A basic example showing how to cross-reference priority queues and other
+ *    containers for erase.
+ */</span>
+
+<span class="enscript-comment">/**
+ * This example shows how to cross-reference priority queues
+ * and other containers. I.e., using an associative container to
+ * map keys to entries in a priority queue, and using the priority
+ * queue to map entries to the associative container. The combination
+ * can be used for fast operations involving both priorities and
+ * arbitrary keys.
+ *
+ * The most useful examples of this technique are usually from the
+ * field of graph algorithms (where erasing or modifying an arbitrary
+ * entry of a priority queue is sometimes necessary), but a full-blown
+ * example would be too long. Instead, this example shows a very simple
+ * version of Dijkstra's
+ */</span>
+
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;iostream&gt;</span>
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;cassert&gt;</span>
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;ext/pb_ds/priority_queue.hpp&gt;</span>
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;ext/pb_ds/assoc_container.hpp&gt;</span>
+
+using namespace std;
+using namespace pb_ds;
+using namespace pb_ds;
+
+<span class="enscript-comment">// A priority queue of integers, which supports fast pushes,
+</span><span class="enscript-comment">// duplicated-int avoidance, and arbitrary-int erases.
+</span><span class="enscript-type">class</span> mapped_priority_queue
+{
+<span class="enscript-type">public</span>:
+
+  <span class="enscript-comment">// Pushes an int into the container. If the key is already in, this
+</span>  <span class="enscript-comment">// is a no-op.
+</span>  <span class="enscript-type">void</span>
+  push(<span class="enscript-type">const</span> <span class="enscript-type">int</span>&amp; r_str);
+
+  <span class="enscript-comment">// Returns a const reference to the largest int in the container.
+</span>  <span class="enscript-type">const</span> <span class="enscript-type">int</span>
+  top() <span class="enscript-type">const</span>
+  {
+    assert(!empty());
+    <span class="enscript-keyword">return</span> m_pq.top();
+  }
+
+  <span class="enscript-comment">// Erases the largest int in the container.
+</span>  <span class="enscript-type">void</span>
+  pop();
+
+  <span class="enscript-comment">// Erases an arbitrary int. If the int is not in the container, this
+</span>  <span class="enscript-comment">// is a no-op, and the return value is false.
+</span>  <span class="enscript-type">bool</span>
+  erase(<span class="enscript-type">const</span> <span class="enscript-type">int</span>&amp; r_str);
+
+  <span class="enscript-type">bool</span>
+  empty() <span class="enscript-type">const</span>
+  { <span class="enscript-keyword">return</span> m_pq.empty(); }
+
+  size_t
+  size() <span class="enscript-type">const</span>
+  { <span class="enscript-keyword">return</span> m_pq.size(); }
+
+<span class="enscript-type">private</span>:
+  <span class="enscript-comment">// A priority queue of strings.
+</span>  <span class="enscript-type">typedef</span> pb_ds::priority_queue&lt; <span class="enscript-type">int</span>&gt; pq_t;
+
+  <span class="enscript-comment">// A hash-table mapping strings to point_iterators inside the
+</span>  <span class="enscript-comment">// priority queue.
+</span>  <span class="enscript-type">typedef</span> cc_hash_table&lt; <span class="enscript-type">int</span>, pq_t::point_iterator&gt; map_t;
+
+  pq_t m_pq;
+  map_t m_map;
+};
+
+<span class="enscript-type">void</span>
+mapped_priority_queue::
+<span class="enscript-function-name">push</span>(<span class="enscript-type">const</span> <span class="enscript-type">int</span>&amp; r_str)
+{
+  <span class="enscript-comment">// First check if the int is already in the container. If so, just return.
+</span>  <span class="enscript-keyword">if</span> (m_map.find(r_str) != m_map.end())
+    <span class="enscript-keyword">return</span>;
+
+  <span class="enscript-comment">// Push the int into the priority queue, and store a point_iterator to it.
+</span>  <span class="enscript-reference">pq_t</span>::point_iterator pq_it = m_pq.push(r_str);
+
+  <span class="enscript-keyword">try</span>
+    {
+      <span class="enscript-comment">// Now make the map associate the int to the point_iterator.
+</span>      m_map[r_str] = pq_it;
+    }
+  <span class="enscript-keyword">catch</span>(...)
+    {
+      <span class="enscript-comment">// If the above failed, we need to remove the int from the
+</span>      <span class="enscript-comment">// priority queue as well.
+</span>      m_pq.erase(pq_it);
+      <span class="enscript-keyword">throw</span>;
+    }
+}
+
+<span class="enscript-type">void</span>
+mapped_priority_queue::
+<span class="enscript-function-name">pop</span>()
+{
+  assert(!empty());
+
+  <span class="enscript-comment">// Erase the int from the map.
+</span>  m_map.erase(m_pq.top());
+
+  <span class="enscript-comment">// ...then from the priority queue.
+</span>  m_pq.pop();
+}
+
+<span class="enscript-type">bool</span>
+mapped_priority_queue::
+<span class="enscript-function-name">erase</span>(<span class="enscript-type">const</span> <span class="enscript-type">int</span>&amp; r_str)
+{
+  <span class="enscript-reference">map_t</span>::point_iterator map_it = m_map.find(r_str);
+
+  <span class="enscript-comment">// If the int is not in the map, this is a no-op.
+</span>  <span class="enscript-keyword">if</span> (map_it == m_map.end())
+    <span class="enscript-keyword">return</span> false;
+
+  <span class="enscript-comment">// Otherwise, we erase it from the priority queue.
+</span>  m_pq.erase(map_it-&gt;second);
+
+  <span class="enscript-comment">// ...then from the map.
+</span>  m_map.erase(r_str);
+
+  <span class="enscript-keyword">return</span> true;
+}
+
+<span class="enscript-type">int</span> <span class="enscript-function-name">main</span>()
+{
+  <span class="enscript-comment">// Push some values into the container object.
+</span>  mapped_priority_queue m;
+  m.push(1);
+  m.push(2);
+
+  <span class="enscript-comment">// The following four operations are no-ops: 2 and 1 are already in
+</span>  <span class="enscript-comment">// the container.
+</span>  m.push(2);
+  m.push(2);
+  m.push(2);
+  m.push(1);
+
+  m.push(10);
+  m.push(11);
+  m.push(12);
+
+  <span class="enscript-comment">// The size should be 5, since m contains the set {1, 2, 10, 11, 12}.
+</span>  assert(m.size() == 5);
+
+  <span class="enscript-comment">// The largest value should be 12.
+</span>  assert(m.top() == 12);
+
+  <span class="enscript-comment">// Now erase some values.
+</span>
+  <span class="enscript-comment">// Erasing 1 actually erases a value.
+</span>  assert(m.erase(1));
+
+  <span class="enscript-comment">// ...but erasing 1 again is a no-op.
+</span>  assert(!m.erase(1));
+
+  <span class="enscript-comment">// The size should be 5, since m contains the set {2, 10, 11, 12}.
+</span>  assert(m.size() == 4);
+
+  <span class="enscript-comment">// Now print the values in the container.
+</span>  <span class="enscript-keyword">while</span> (!m.empty())
+    {
+      cout &lt;&lt; m.top() &lt;&lt; endl;
+      m.pop();
+    }
+
+  <span class="enscript-keyword">return</span> 0;
+}
+
+</pre>
+<hr />
+</body></html>

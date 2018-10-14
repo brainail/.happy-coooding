@@ -1,0 +1,15 @@
+{
+'contest_id'             : '975485',
+'cookie'                 : 'ACSID=AJKiYcHgq_zT0eT9Wr7OaMtMvEQSsuU5880EglGfJIDhaPWxANqgwYSPnN2mkrfngd-ROGutfTWtwePteeFlAjnz5osOjbWW5RJwsd8cJImhlJ7tn5CMev-ozy13dKEzDuruwunFmZNoLvDFrAIrqnKPn_FxdKvRufASfL7fXxS_q5jkdsR0ByWfJNh_kUvAz9qZRdgi1Mcx7gTOX4tZ2ziCNefEj6w55d54wy90GuA8AMORamUNpaf0gU6FNA4FtOvE206rYH-vfVE7eh8bhTP7LqwlDqQuzxqsqHS_yNTj-nhgME28oGgOcaZVhOoB2LR80rxkWwXrabSOrfWu3V7I95oKfVuJYbTq16npW1giY0apTt-5f6oE8GIIYubILDYGuA8byckAPO_f4iX5NY2WgvMVsIpVS177XCnBFQcZR5UwylqgVmC0WH-YV5LmMsx0mZqI7YNlyT2QBcSHu9oquw0jvNxRbH5WoKuHoqDtNeei5LNS5_2oYKkx8oX5GZMvruXiDJx3LnMAhO28v3hK-9Sa0dXJnNONkshcGhDQdBPCwXYDG2MV1EqHsDAEpE2wpiv_ZZeruatY0LKEcpWKW9ehiq2bin7qVNfNyO2lakK1AjCi8ek; expires=Mon, 09-May-2011 20:52:08 GMT; path=/',
+'data_directory'         : './source',
+'host'                   : 'code.google.com',
+'input_name_format'      : '{problem}-{input}-{id}.in',
+'input_spec'             : {'small': {'time_limit': 240, 'input_id': '0', 'public': True}, 'large': {'time_limit': 480, 'input_id': '1', 'public': False}},
+'middleware_tokens'      : {u'SubmitAnswer': u'NGNhY2JmNDdmYzA3ZTlhMTcyMTgyNTIwNWU5Njc3ZDh8MTAwMzg5MTYwMTAwMDgzNjM2MTYwfFN1Ym1pdEFuc3dlcnwxMzA0ODg3OTI4Njk3NjY5', u'GetInitialValues': u'NzI4MjBhZGJiYTk2YmZjYTEwOTlhMDUzZTc4NjQ2MzJ8MTAwMzg5MTYwMTAwMDgzNjM2MTYwfEdldEluaXRpYWxWYWx1ZXN8MTMwNDg4NzkyODY5NzY2OQ==', u'GetUserStatus': u'Mjg1ZDRmNzAxOTg0ODlhZTU3ZDlkMmJjYjIxMzUyZmJ8MTAwMzg5MTYwMTAwMDgzNjM2MTYwfEdldFVzZXJTdGF0dXN8MTMwNDg4NzkyODY5NzY2OQ==', u'GetInputFile': u'YjM1M2VlNTlhM2U1NTA2NWMyMDViNzllYTdhZjEwZmN8MTAwMzg5MTYwMTAwMDgzNjM2MTYwfEdldElucHV0RmlsZXwxMzA0ODg3OTI4Njk3NjY5'},
+'output_name_format'     : '{problem}-{input}-{id}.out',
+'password'               : 'iagipfimoakfpmzb',
+'problems'               : [{'id': 1080487, 'key': u'agxjb2RlamFtLXByb2RyEAsSCHByb2JsZW1zGKf5QQw', 'name': u'Bot Trust'}, {'id': 1026487, 'key': u'agxjb2RlamFtLXByb2RyEAsSCHByb2JsZW1zGLfTPgw', 'name': u'Magicka'}, {'id': 1059486, 'key': u'agxjb2RlamFtLXByb2RyEAsSCHByb2JsZW1zGJ7VQAw', 'name': u'Candy Splitting'}, {'id': 992486, 'key': u'agxjb2RlamFtLXByb2RyEAsSCHByb2JsZW1zGObJPAw', 'name': u'GoroSort'}],
+'source_names_format'    : ['{problem}-{input}-{id}.java'],
+'tokens_expiration_time' : u'2011-05-10 20:52:08',
+'user'                   : 'evandrix@gmail.com',
+}

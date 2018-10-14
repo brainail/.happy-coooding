@@ -1,0 +1,354 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.04 [en] (Win95; I) [Netscape]">
+   <META NAME="Author" CONTENT="David Harvey">
+   <META NAME="Description" CONTENT="A concise introduction to the C++ Standard Template Library">
+   <META NAME="KeyWords" CONTENT="C++,STL,Object Oriented">
+   <TITLE>Tiny STL Primer</TITLE>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+Papers on <A HREF="smartp.htm">Smart Pointers in C++</A>
+and <A HREF="ed.htm">Evolutionary Delivery</A> and a more detailed consideration
+of <A HREF="eff_stl.htm">idiomatic use of the STL</A> are also available
+at this site. For more information on the author, please take a look at
+my <A HREF="../software.htm">software</A> and <A HREF="../index.htm">home</A>
+pages.&nbsp;
+<HR>
+<CENTER>
+<H1>
+A Tiny STL Primer</H1></CENTER>
+
+<CENTER>
+<H1>
+<I>David Harvey</I></H1></CENTER>
+&copy; 1996 David Harvey. All rights reserved.
+<BR>Revised 27/6/1997 (format)
+<BR>Revised 30/11/1997 (new links)
+<BR><A href="../contact.htm">Contact</A>
+<BR><I>Home: http://www.davethehat.com/</I>
+
+<P><I>This primer formed part of the workbook for a presentation at the
+Object Technology 96 Conference, held at Oxford, England, March 25-27<SUP>th</SUP>
+1996.</I>
+
+<P>The STL is an innovative library of templated container, iterator and
+algorithm classes which bring true generic programming styles into the
+reach of the C++ language. The core idioms in the library itself
+<MENU>
+<LI>
+allow straightforward implementation of software components in economic
+and expressive ways;</LI>
+
+<LI>
+generate remarkable levels of source code reuse;</LI>
+
+<LI>
+promote new and powerful programming techniques.</LI>
+</MENU>
+For more extensive information on the STL see the references at the end
+of this paper.
+
+<P>The STL has been incorporated in the ANSI draft specification for the
+C++ language, where it forms the containers, iterators and algorithms parts
+of the standard library. In the remainder of this primer, I will therefore
+refer to the <I>SL template classes </I>rather than STL, to characterise
+this library.&nbsp;
+<HR>
+<H2>
+Basics</H2>
+The SL template classes provide first and foremost a basic selection of
+containers:
+<PRE>template &lt;size_t N> class bitset;
+template &lt;class T> class deque;
+template &lt;class T> class list;
+<B>template &lt;class T> class vector;</B></PRE>
+The library also provides associative containers:
+<PRE>template &lt;class Key> class set;
+template &lt;class Key>&nbsp;
+class multiset;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //<I> equivalent of bag
+</I><B>template &lt;class Key, class T> class map;
+</B>template &lt;class Key, class T>&nbsp;
+class multimap;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //<I> possibly several values per key</I></PRE>
+These declarations do not show the <I>default template parameters</I> which
+apply to these templates. Each container also takes an Allocator class,
+and in addition the associative containers are parameterised with a function
+class for internal ordering of the container. As default template parameters
+are not yet commonly implemented, current SL implementations compromise
+in their handling of these.
+
+<P>The classes highlighted in bold will serve as the focus of our attention
+throughout the workshop: most of what will be covered applies to the others
+also.
+<H2>
+Container members</H2>
+Each class offers member functions performing basic operations such as
+creation and basic element access. Some of the members of vector are:
+<PRE>template &lt;class T> class vector {
+vector::vector();
+vector::vector(size_type n, const T&amp; value = T());&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+size_type size();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // <I>size_type is a typedef for size_t
+</I>size_type max_size();
+
+T&amp; operator[](size_type n);
+void push_back(const T&amp; x);
+...
+};</PRE>
+
+<H2>
+Iterators</H2>
+Other operations on vector require some notion of a <I>position</I> within
+the vector. Traditionally in C and C++ this is represented by a pointer:
+the SL abstracts the notion of a pointer into the generic concept of an
+<I>iterator</I>. These are best illustrated by example. First of all, with
+arrays and pointers:
+<PRE>int v[10];
+//<I>... fill v;
+</I>int* i = v;
+while (i != v + 10)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt; *i++;</PRE>
+The SL code for this is surprisingly similar:
+<PRE>vector&lt;int> v;
+//<I>... fill v
+</I>vector&lt;int>::iterator i = v.begin();&nbsp;&nbsp;&nbsp; //<I> 1
+</I>while (i != v.end())&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //<I> 2
+</I>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt; *i++;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //<I> 3</I></PRE>
+Important principles:
+<MENU>
+<LI>
+<I>Iterators</I> can be used to move sequentially through containers</LI>
+
+<LI>
+These iterators behave like pointers - in fact, think of iterators as generalised
+pointers (3 above)</LI>
+
+<LI>
+Iterator classes are typedef-ed in the container classes themselves (2)</LI>
+
+<LI>
+A container's start and end (in fact, 'one past the end') are given by
+<B>begin()</B> and <B>end()</B> members;</LI>
+
+<LI>
+There are different classes of iterator - input, output, forward, reverse,
+bidirectional, random access - which correspond to increasingly flexible
+usages. For now, you won't need to worry about the differences between
+them.</LI>
+</MENU>
+Some members of <B>vector</B> which use or return iterators are:
+<PRE>template &lt;class T> class vector {
+iterator begin();
+iterator end();
+iterator insert(iterator position, const T&amp; x);
+...
+};</PRE>
+These can be used together to place elements in a vector:
+<PRE>vector&lt;int> va, vb, vc;
+for (int i = 1; i &lt; 10; i ++)
+{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; va.insert(va.end(), i * i);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; vb.push_back(i * i);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; vc.insert(vc.begin(), i * i);
+}</PRE>
+Here are some equivalent members of the <B>map</B> container class.
+<PRE>template &lt;class Key, class T> class map {
+typedef Key key_type;
+typedef pair&lt;const Key, T> value_type;
+
+T&amp; operator[](const key_type&amp; x);
+pair&lt;iterator,bool> insert(const value_type&amp; x);
+iterator find(const key_type&amp; x);
+...
+};</PRE>
+The value of a map iterator (returned by dereferencing it using <B>operator*()</B>)
+is given by the typedef <B>value_type</B>, holding the key and its associated
+value. The overloaded <B>operator[]</B> allows associative look-up using
+an instance of the key type. Beware: it will create an element in the map
+if one doesn't exist. The <B>insert()</B> member returns a pair, the second
+element of which is true if the object didn't already exist in the map.
+If <B>find()</B> fails to locate an element corresponding to the passed
+key, it returns an iterator equal to <B>end()</B>.
+<H2>
+Algorithms</H2>
+Container member functions and iterators between them provide the fundamental
+means for accessing elements of containers. More powerful operations are
+implemented using standard library <I>algorithms</I>. These are template
+functions parameterised on <I>iterators</I> and often also <I>functions</I>.
+More detailed discussion of these will follow: for now, some examples:
+<PRE>vector&lt;int> v;
+//<I>... fill v
+</I>// Sort the vector
+<B>sort</B>(v.begin(), v.end());
+
+//<I> Print each element of a vector of integers
+</I>void print (int i) {cout &lt;&lt; i;}
+<B>for_each</B>(v.begin(), v.end(), print);
+
+//<I> Copy the vector
+</I>vector&lt;int> v2(v.size())
+<B>copy</B>(v.begin(), v.end(), v2.begin());
+
+//<I> Transform v2 - square each element
+</I>int square(int i) { return i * i; }
+<B>transform</B>(v2.begin(),v2.end(), v2.begin(), square};</PRE>
+
+<H2>
+Adaptors</H2>
+The SL provides container <I>adaptors,</I> some which change the behaviour
+of an underlying container, some which allow a non-SL data structure to
+be used in SL algorithms.
+
+<P>In the example illustrating the <B>copy</B> function, it was important
+to create the destination vector with enough room to hold each copied element
+as it is assigned. To make the destination grow with each assigned element,
+we can use a <B>back_insert_iterator</B> instead, which uses <B>push_back()</B>
+rather than assignment to place elements in the destination:
+<PRE>//<I> Copy the vector using an iterator adaptor
+</I>vector&lt;int> v2;
+copy(v.begin(), v.end(), back_insert_iterator&lt;vector&lt;int> >(v2));</PRE>
+There are corresponding adaptors <B>front_insert_iterator</B> and <B>insert_iterator</B>
+to deal with building sequential containers from the front, or through
+insertion into containers such as <B>set</B> and <B>map</B>.
+
+<P>Further adaptors allow C++ stream library objects to act as iterators.
+Here is a single call to <B>copy</B> which copies strings from <B>cin</B>
+to <B>cout</B>, separating each in the output with a newline:
+<PRE>copy(istream_iterator&lt;string, ptrdiff_t>(cin),&nbsp; // <I>create on <B>cin
+</B></I>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; istream_iterator&lt;string, ptrdiff_t>(),&nbsp; //<I> stream <B>end()
+</B></I>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ostream_iterator&lt;string>(cout, "\n"));</PRE>
+
+<HR>
+<H2>
+SL/STL resources</H2>
+
+<H3>
+STL Implementations</H3>
+<B>STL++ - Modena Software Inc.</B>
+
+<P>The first commercial implementation.
+
+<P><B>STL&lt;Toolkit> - ObjectSpace Inc.</B>
+
+<P>Available for many platforms, optimised and improved. Includes several
+non-STL extensions (clearly marked as such), all geared towards ease of
+use and flexibility.
+
+<P><B>Rogue Wave Tools.h++ v7</B>
+
+<P><B>Silicon Graphics STL</B>
+
+<P>Available free (se below)
+
+<P><B>HP Reference Implementation</B>
+
+<P>Available free (see below)
+<H3>
+C++ Draft Standard</H3>
+ISO Working Paper for Draft Proposed International Standard for Information
+Systems-Programming Language C++, Doc No: X3J16/95-0087 WG21/N0687, April
+1995
+
+<P>Available in postscript and acrobat formats from <A HREF="ftp://research.att.com/dist/c++std/WP/">ftp://research.att.com/dist/c++std/WP/</A>,
+UK mirror at <A HREF="ftp://ftp.maths.warwick.ac.uk:/pub/c++/std/WP">ftp://ftp.maths.warwick.ac.uk:/pub/c++/std/WP</A>.
+HTML and ASCII versions are online at <A TARGET="_top" HREF="http://www.cygnus.com/">http://www.cygnus.com/</A>.
+<H3>
+SL/STL Online</H3>
+There are several WWW and other sites devoted to the STL These include
+
+<P><A HREF="ftp://butler.hpl.hp.com/stl/">ftp://butler.hpl.hp.com/stl/</A>
+<BR>Anonymous FTP for HP reference implementation. Also includes STL-style
+implementations of hashed collections, STL-related papers and documents,
+and sample programs from ObjectSpace's STL&lt;Toolkit>.
+
+<P><A TARGET="_top" HREF="http://www.cs.rpi.edu/~musser/stl.html">http://www.cs.rpi.edu/~musser/stl.html</A>
+<BR>David Musser's STL home page at Rennslaer Polytechnic Institute. Includes
+on-line version of STL definition document and many examples. Also an FTP
+link with STL sources and further examples (including code from the Musser/Saini
+book mentioned below).
+
+<P><A TARGET="_top" HREF="http://www.sgi.com/Technology/STL/">http://www.sgi.com/Technology/STL/</A>
+<BR>Silicon Graphics STL implementation. An excellent new (Jan 1997) site
+with good documentation, links, and a downloadable implementation.
+
+<P><A TARGET="_top" HREF="http://www.metabyte.com/~fbp/stl/">http://www.metabyte.com/~fbp/stl/</A>
+<BR>STL Adaptation Page: a highly useful site which provides fixed-up versions
+of the SGI STL for several compilers (including MS, Borland).
+
+<P><A TARGET="_top" HREF="http://www.xraylith.wisc.edu/~khan/software/stl/STL.newbie.html">http://www.xraylith.wisc.edu/~khan/software/stl/STL.newbie.html</A>
+<BR>Mumit Kahn's newbie guide, with notes on using STL collected over a
+period of time.
+
+<P><A TARGET="_top" HREF="http://www.cs.brown.edu/people/jak/programming/stl-tutorial/home.html">http://www.cs.brown.edu/people/jak/programming/stl-tutorial/home.html</A>
+<BR>Simple tutorial by Jak Kirman.
+
+<P><A TARGET="_top" HREF="http://www-leland.stanford.edu/~iburrell/cpp/stl.html">http://www-leland.stanford.edu/~iburrell/cpp/stl.html</A>
+<BR>Another STL home page, with links to several other sites.
+
+<P><A TARGET="_top" HREF="http://weber.u.washington.edu/~bytewave/bytewave_stl.html">http://weber.u.washington.edu/~bytewave/bytewave_stl.html</A>
+<BR>A collection of links to STL sites
+
+<P><A TARGET="_top" HREF="http://www.cs.bham.ac.uk/~jdm/cpp.html">http://www.cs.bham.ac.uk/~jdm/cpp.html</A>
+<BR>Extensive list of C++ links including several links to STL sites
+<H3>
+Books</H3>
+Expect to see a flurry of books on the STL and SL as the C++ standardisation
+effort nears its completion. Three titles currently available are
+
+<P><B>Graham Glass/Brett Schuchert: <I>The STL &lt;Primer></I></B>
+
+<P>Prentice-Hall 1995, ISBN 0-13-454976-7, 329pp
+
+<P>Glass is the founder of ObjectSpace, and both authors were instrumental
+in that company's implementation of the STL. The first off the blocks,
+though with some 100 pages of tutorial and 200 pages of reference you might
+feel it owes rather too large a debt to the STL&lt;Toolkit> reference manual.
+
+<P><B>Mark Nelson: <I>The C++ Programmer's Guide to the Standard Template
+Library</I></B>
+
+<P>IDG 1996, ISBN 1-56884-314-3, 874pp
+
+<P>Written by another library guru (this time from Greenleaf Software Inc).
+A heavyweight book, with a great deal more supplementary material than
+Glass/Schuchert.
+
+<P><B>David R. Musser/Atul Saini:<I> STL Tutorial and Reference Guide</I></B>
+
+<P>Addison Wesley 1996, ISBN 0-201-63398-1, 432pp
+
+<P>Musser was an early collaborator with Alex Stepanov, and played a large
+part in bringing the STL into the C++ standard. Saini is President and
+CEO of Modena Software Inc., responsible for STL++. Between them they have
+produced what will probably end up as the standard book on the STL.
+
+<P>The SL is covered in some detail in
+
+<P><B>Bjarne Stroustrup: <I>The C++ Programming Language (3rd edition)</I></B>
+
+<P>Addison Wesley 1997, ISBN 0-201-88954-4, 910pp
+
+<P>Stroustrup maintains lists of <A TARGET="_top" HREF="http://www.research.att.com/~bs/3rd_errata.html">errata</A>
+in the various printings of the book.
+<H3>
+Articles</H3>
+J. Lajoie, 'Templates:-New and improved, like your favorite detergent :-)',
+<I>C++ Report</I> 6/iv, May 1994
+
+<P>A. Koenig, 'Generic input iterators', <I>JOOP</I> 9/i, March-April 1996
+
+<P>N. Myers, 'A new and useful template technique: "Traits"', <I>C++ Report</I>
+7/v, June 1995
+
+<P>B. Stroustrup, 'Making a vector fit for a standard', <I>C++ Report</I>,
+October 1994
+
+<P>T. Veldhuizen, 'Using C++ template metaprograms', <I>C++ Report</I>
+7/iv, May 1995
+
+<P>T. Veldhuizen, 'Expression Templates', <I>C++ Report</I> 7/v, June 1995
+
+<P>J. Vilot, 'An Introduction to the Standard Template Library', <I>C++
+Report</I> 6/viii, October 1994
+</BODY>
+</HTML>

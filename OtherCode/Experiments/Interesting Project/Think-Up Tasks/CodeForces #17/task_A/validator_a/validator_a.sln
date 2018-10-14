@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "validator_a", "validator_a\validator_a.vcproj", "{A1391596-6B36-42DF-AFC9-2CF1DE53C180}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A1391596-6B36-42DF-AFC9-2CF1DE53C180}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A1391596-6B36-42DF-AFC9-2CF1DE53C180}.Debug|Win32.Build.0 = Debug|Win32
+		{A1391596-6B36-42DF-AFC9-2CF1DE53C180}.Release|Win32.ActiveCfg = Release|Win32
+		{A1391596-6B36-42DF-AFC9-2CF1DE53C180}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,19 @@
+-r
+D:\!My Docs\!Programming\Project\Temp Project\MaxSumSubArrParallel ' Using Kadane\MaxSumSubArr\My Amplifier XE Results - MaxSumSubArr\r000lw
+--data-limit-mb=100
+--follow-child
+--type=frame:counters
+--stackwalk=offline
+--type=cswitch
+--mrte-mode=auto
+--type=cpu:counters
+--type=cpu:nostack
+--type=threading:stack
+--type=waiting:stack
+--type=io:stack
+--search-dir
+sym=D:/!My Docs/!Programming/Project/Temp Project/MaxSumSubArrParallel ' Using Kadane/Debug
+--search-dir
+sym=D:/!My Docs/!Programming/Project/Temp Project/MaxSumSubArrParallel ' Using Kadane
+--
+D:\!My Docs\!Programming\Project\Temp Project\MaxSumSubArrParallel ' Using Kadane\Debug\MaxSumSubArr.exe

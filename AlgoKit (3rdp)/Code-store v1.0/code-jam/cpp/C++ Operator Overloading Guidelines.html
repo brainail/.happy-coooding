@@ -1,0 +1,414 @@
+<html>
+<head>
+  <title>C++ Operator Overloading Guidelines</title>
+</head>
+
+<body>
+<h2 align="center">C++ Operator Overloading Guidelines</h2>
+
+<p>
+  One of the nice features of C++ is that you can give special meanings to
+  operators, when they are used with user-defined classes.  This is called
+  <em>operator overloading</em>.  You can implement C++ operator overloads by
+  providing special member-functions on your classes that follow a particular
+  naming convention.  For example, to overload the <tt>+</tt> operator for
+  your class, you would provide a member-function named <tt>operator+</tt> on
+  your class.
+</p>
+
+<p>
+  The following set of operators is commonly overloaded for user-defined
+  classes:
+  <ul>
+    <li><tt>=</tt> (assignment operator)</li>
+    <li><tt>+ - *</tt> (binary arithmetic operators)</li>
+    <li><tt>+= -= *=</tt> (compound assignment operators)</li>
+    <li><tt>== !=</tt> (comparison operators)</li>
+  </ul>
+</p>
+
+<p>
+  Here are some guidelines for implementing these operators.  These guidelines
+  are very important to follow, so definitely get in the habit early.
+</p>
+
+<h3>Assignment Operator <tt>=</tt></h3>
+
+<p>
+  The assignment operator has a signature like this:
+
+  <pre>
+  class MyClass {
+  public:
+    ...
+    MyClass &amp; operator=(const MyClass &amp;rhs);
+    ...
+  }
+
+  MyClass a, b;
+  ...
+  b = a;   // Same as b.operator=(a);</pre>
+</p>
+<p>
+  Notice that the <tt>=</tt> operator takes a const-reference to the right hand
+  side of the assignment.  The reason for this should be obvious, since we don't
+  want to change that value; we only want to change what's on the left hand
+  side.
+</p>
+<p>
+  Also, you will notice that a reference is returned by the assignment operator.
+  This is to allow <b>operator chaining</b>.  You typically see it with
+  primitive types, like this:
+
+  <pre>
+  int a, b, c, d, e;
+
+  a = b = c = d = e = 42;</pre>
+
+  This is interpreted by the compiler as:
+
+  <pre>
+  a = (b = (c = (d = (e = 42))));</pre>
+
+  In other words, assignment is <b>right-associative</b>.  The last assignment
+  operation is evaluated first, and is propagated leftward through the series of
+  assignments.  Specifically:
+  <ul>
+    <li>
+      <tt>e = 42</tt> assigns 42 to <tt>e</tt>, then returns <tt>e</tt> as the
+      result
+    </li>
+    <li>
+      The value of <tt>e</tt> is then assigned to <tt>d</tt>, and then
+      <tt>d</tt> is returned as the result
+    </li>
+    <li>
+      The  value of <tt>d</tt> is then assigned to <tt>c</tt>, and then
+      <tt>c</tt> is returned as the result
+    </li>
+    <li>etc.</li>
+  </ul>
+</p>
+<p>
+  Now, in order to support operator chaining, the assignment operator must
+  return some value.  The value that should be returned is a reference to
+  the <em>left-hand side</em> of the assignment.
+</p>
+<p>
+  Notice that the returned reference is <em>not</em> declared <tt>const</tt>.
+  This can be a bit confusing, because it allows you to write crazy stuff like
+  this:
+  <pre>
+  MyClass a, b, c;
+  ...
+  (a = b) = c;  // What??</pre>
+  
+  At first glance, you might want to prevent situations like this, by having
+  <tt>operator=</tt> return a <tt>const</tt> reference.  However, <em>statements
+  like this <u>will</u> work with primitive types.</em>  And, even worse, some
+  tools actually rely on this behavior.  Therefore, it is important to return a
+  <b>non-<tt>const</tt></b> reference from your <tt>operator=</tt>.  The rule of
+  thumb is, "If it's good enough for <tt>int</tt>s, it's good enough for
+  user-defined data-types."
+</p>
+<p>
+  So, for the hypothetical <tt>MyClass</tt> assignment operator, you would do
+  something like this:
+  <pre>
+  // Take a const-reference to the right-hand side of the assignment.
+  // Return a non-const reference to the left-hand side.
+  MyClass&amp; MyClass::operator=(const MyClass &amp;rhs) {
+    ...  // Do the assignment operation!
+
+    return *this;  // Return a reference to myself.
+  }</pre>
+  
+  Remember, <tt>this</tt> is a pointer to the object that the member function is
+  being called on.  Since <tt>a = b</tt> is treated as <tt>a.operator=(b)</tt>,
+  you can see why it makes sense to return the object that the function is
+  called on; object <tt>a</tt> <em>is</em> the left-hand side.
+</p>
+<p>
+  But, the member function needs to return a reference to the object, not a
+  pointer to the object.  So, it returns <tt>*this</tt>, which returns what
+  <tt>this</tt> points at (i.e. the object), not the pointer itself.  (In C++,
+  instances are turned into references, and vice versa, pretty much
+  automatically, so even though <tt>*this</tt> is an instance, C++ implicitly
+  converts it into a reference to the instance.)
+</p>
+<p>
+  Now, one more <b>very important</b> point about the assignment operator:
+</p>
+<p align="center">
+  <b>YOU MUST CHECK FOR SELF-ASSIGNMENT!</b>
+</p>
+<p>
+  This is especially important when your class does its own memory allocation.
+  Here is why:  The typical sequence of operations within an assignment operator
+  is usually something like this:
+  <pre>
+  MyClass&amp; MyClass::operator=(const MyClass &amp;rhs) {
+    // 1.  Deallocate any memory that MyClass is using internally
+    // 2.  Allocate some memory to hold the contents of rhs
+    // 3.  Copy the values from rhs into this instance
+    // 4.  Return *this
+  }</pre>
+
+  Now, what happens when you do something like this:
+
+  <pre>
+  MyClass mc;
+  ...
+  mc = mc;     // BLAMMO.</pre>
+
+  You can hopefully see that this would wreak havoc on your program.  Because
+  <tt>mc</tt> is on the left-hand side <em>and</em> on the right-hand side, the
+  first thing that happens is that <tt>mc</tt> releases any memory it holds
+  internally.  But, this is where the values were going to be copied from, since
+  <tt>mc</tt> is also on the right-hand side!  So, you can see that this
+  completely messes up the rest of the assignment operator's internals.
+</p>
+<p>
+  The easy way to avoid this is to <b>CHECK FOR SELF-ASSIGNMENT.</b>  There are
+  many ways to answer the question, "Are these two instances the same?"  But,
+  for our purposes, just compare the two objects' addresses.  If they are the
+  same, then don't do assignment.  If they are different, then do the
+  assignment.
+</p>
+<p>
+  So, the correct and safe version of the <tt>MyClass</tt> assignment operator
+  would be this:
+  <pre>
+  MyClass&amp; MyClass::operator=(const MyClass &amp;rhs) {
+    // Check for self-assignment!
+    if (this == &amp;rhs)      // Same object?
+      return *this;        // Yes, so skip assignment, and just return *this.
+
+    ... // Deallocate, allocate new space, copy values...
+
+    return *this;
+  }</pre>
+
+  Or, you can simplify this a bit by doing:
+
+  <pre>
+  MyClass&amp; MyClass::operator=(const MyClass &amp;rhs) {
+
+    // Only do assignment if RHS is a different object from this.
+    if (this != &amp;rhs) {
+      ... // Deallocate, allocate new space, copy values...
+    }
+
+    return *this;
+  }</pre>
+
+  Remember that in the comparison, <tt>this</tt> is a pointer to the object
+  being called, and <tt>&amp;rhs</tt> is a pointer to the object being passed
+  in as the argument.  So, you can see that we avoid the dangers of
+  self-assignment with this check.
+</p>
+<p>
+  In summary, the guidelines for the assignment operator are:
+  <ol>
+    <li>
+      Take a const-reference for the argument (the right-hand side of the
+      assignment).
+    </li>
+    <li>
+      Return a reference to the left-hand side, to support safe and reasonable
+      operator chaining.  (Do this by returning <tt>*this</tt>.)
+    </li>
+    <li>
+      Check for self-assignment, by comparing the pointers (<tt>this</tt> to
+      <tt>&amp;rhs</tt>).
+    </li>
+  </ol>
+</p>
+
+<h3>Compound Assignment Operators <tt>+= -= *=</tt></h3>
+
+<p>
+  I discuss these before the arithmetic operators for a very specific reason,
+  but we will get to that in a moment.  The important point is that these are
+  <em>destructive</em> operators, because they update or replace the values on
+  the left-hand side of the assignment.  So, you write:
+
+  <pre>
+  MyClass a, b;
+  ...
+  a += b;    // Same as a.operator+=(b)</pre>
+
+  In this case, the values within <tt>a</tt> are <em>modified</em> by the
+  <tt>+=</tt> operator.
+</p>
+<p>
+  How those values are modified isn't very important - obviously, what
+  <tt>MyClass</tt> represents will dictate what these operators mean.
+</p>
+<p>
+  The member function signature for such an operator should be like this:
+
+  <pre>
+  MyClass &amp; MyClass::operator+=(const MyClass &amp;rhs) {
+    ...
+  }</pre>
+
+  We have already covered the reason why <tt>rhs</tt> is a const-reference.
+  And, the implementation of such an operation should also be straightforward.
+</p>
+<p>
+  But, you will notice that the operator returns a <tt>MyClass</tt>-reference,
+  and a non-const one at that.  This is so you can do things like this:
+
+  <pre>
+  MyClass mc;
+  ...
+  (mc += 5) += 3;</pre>
+</p>
+<p>
+  Don't ask me why somebody would want to do this, but just like the normal
+  assignment operator, this is allowed by the primitive data types.  Our
+  user-defined datatypes should match the same general characteristics of the
+  primitive data types when it comes to operators, to make sure that everything
+  works as expected.
+</p>
+<p>
+  This is very straightforward to do.  Just write your compound assignment
+  operator implementation, and return <tt>*this</tt> at the end, just like for
+  the regular assignment operator.  So, you would end up with something like
+  this:
+
+  <pre>
+  MyClass &amp; MyClass::operator+=(const MyClass &amp;rhs) {
+    ...   // Do the compound assignment work.
+
+    return *this;
+  }</pre>
+  
+</p>
+<p>
+  As one last note, <em>in general</em> you should beware of self-assignment
+  with compound assignment operators as well.  Fortunately, none of the C++
+  track's labs require you to worry about this, but you should always give it
+  some thought when you are working on your own classes.
+</p>
+
+<h3>Binary Arithmetic Operators <tt>+ - *</tt></h3>
+
+<p>
+  The binary arithmetic operators are interesting because they don't modify
+  either operand - they actually return a new value from the two arguments.
+  You might think this is going to be an annoying bit of extra work, but here is
+  the secret:
+</p>
+<p align="center">
+  <b>Define your binary arithmetic operators using your compound assignment
+  operators.</b>
+</p>
+<p>
+  There, I just saved you a bunch of time on your homeworks.
+</p>
+<p>
+  So, you have implemented your <tt>+=</tt> operator, and now you want to
+  implement the <tt>+</tt> operator.  The function signature should be like
+  this:
+  <pre>
+  // Add this instance's value to other, and return a new instance
+  // with the result.
+  const MyClass MyClass::operator+(const MyClass &amp;other) const {
+    MyClass result = *this;     // Make a copy of myself.  Same as MyClass result(*this);
+    result += other;            // Use += to add other to the copy.
+    return result;              // All done!
+  }</pre>
+
+  Simple!
+</p>
+<p>
+  Actually, this explicitly spells out all of the steps, and if you want, you
+  <em>can</em> combine them all into a single statement, like so:
+
+  <pre>
+  // Add this instance's value to other, and return a new instance
+  // with the result.
+  const MyClass MyClass::operator+(const MyClass &amp;other) const {
+    return MyClass(*this) += other;
+  }</pre>
+
+  This creates an unnamed instance of <tt>MyClass</tt>, which is a <em>copy</em>
+  of <tt>*this</tt>.  Then, the <tt>+=</tt> operator is called on the temporary
+  value, and then returns it.
+</p>
+<p>
+  If that last statement doesn't make sense to you yet, then stick with the
+  other way, which spells out all of the steps.  But, if you understand exactly
+  what is going on, then you can use that approach.
+</p>
+<p>
+  You will notice that the <tt>+</tt> operator returns a <tt>const</tt>
+  instance, <em>not</em> a <tt>const</tt> reference.  This is so that people
+  can't write strange statements like this:
+
+  <pre>
+  MyClass a, b, c;
+  ...
+  (a + b) = c;   // Wuh...?</pre>
+
+  This statement would basically do nothing, but if the <tt>+</tt> operator
+  returns a non-<tt>const</tt> value, it <em>will</em> compile!  So, we want to
+  return a <tt>const</tt> instance, so that such madness will not even be
+  allowed to compile.
+</p>
+<p>
+  To summarize, the guidelines for the binary arithmetic operators are:
+  <ol>
+    <li>
+      Implement the compound assignment operators from scratch, and then define
+      the binary arithmetic operators in terms of the corresponding compound
+      assignment operators.
+    </li>
+    <li>
+      Return a <tt>const</tt> instance, to prevent worthless and confusing
+      assignment operations that shouldn't be allowed.
+    </li>
+  </ol>
+</p>
+
+<h3>Comparison Operators <tt>==</tt> and <tt>!=</tt></h3>
+
+<p>
+  The comparison operators are very simple.  Define <tt>==</tt> first, using a
+  function signature like this:
+
+  <pre>
+  bool MyClass::operator==(const MyClass &amp;other) const {
+    ...  // Compare the values, and return a bool result.
+  }</pre>
+
+  The internals are very obvious and straightforward, and the <tt>bool</tt>
+  return-value is also very obvious.
+</p>
+<p>
+  The important point here is that the <tt>!=</tt> operator can also be defined
+  in terms of the <tt>==</tt> operator, and you should do this to save effort.
+  You can do something like this:
+
+  <pre>
+  bool MyClass::operator!=(const MyClass &amp;other) const {
+    return !(*this == other);
+  }</pre>
+
+  That way you get to reuse the hard work you did on implementing your
+  <tt>==</tt> operator.  Also, your code is far less likely to exhibit
+  inconsistencies between <tt>==</tt> and <tt>!=</tt>, since one is implemented
+  in terms of the other.
+</p>
+
+<hr />
+
+<font size="-1">
+  <em>Updated Oct 23, 2007</em><br />
+  Copyright (c) 2005-2007, California Institute of Technology.
+</font>
+
+</body>
+</html>

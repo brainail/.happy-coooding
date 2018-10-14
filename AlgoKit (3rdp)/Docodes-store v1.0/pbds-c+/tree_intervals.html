@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>tree_intervals.cc</title>
+<style type="text/css">
+.enscript-comment { font-style: italic; color: rgb(178,34,34); }
+.enscript-function-name { font-weight: bold; color: rgb(0,0,255); }
+.enscript-variable-name { font-weight: bold; color: rgb(184,134,11); }
+.enscript-keyword { font-weight: bold; color: rgb(160,32,240); }
+.enscript-reference { font-weight: bold; color: rgb(95,158,160); }
+.enscript-string { font-weight: bold; color: rgb(188,143,143); }
+.enscript-builtin { font-weight: bold; color: rgb(218,112,214); }
+.enscript-type { font-weight: bold; color: rgb(34,139,34); }
+.enscript-highlight { text-decoration: underline; color: 0; }
+</style>
+</head>
+<body id="top">
+<h1 style="margin:8px;" id="f1">tree_intervals.cc&nbsp;&nbsp;&nbsp;<span style="font-weight: normal; font-size: 0.5em;">[<a href="?txt">plain text</a>]</span></h1>
+<hr/>
+<div></div>
+<pre>
+<span class="enscript-comment">// -*- C++ -*-
+</span>
+<span class="enscript-comment">// Copyright (C) 2005, 2006 Free Software Foundation, Inc.
+</span><span class="enscript-comment">//
+</span><span class="enscript-comment">// This file is part of the GNU ISO C++ Library.  This library is free
+</span><span class="enscript-comment">// software; you can redistribute it and/or modify it under the terms
+</span><span class="enscript-comment">// of the GNU General Public License as published by the Free Software
+</span><span class="enscript-comment">// Foundation; either version 2, or (at your option) any later
+</span><span class="enscript-comment">// version.
+</span>
+<span class="enscript-comment">// This library is distributed in the hope that it will be useful, but
+</span><span class="enscript-comment">// WITHOUT ANY WARRANTY; without even the implied warranty of
+</span><span class="enscript-comment">// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+</span><span class="enscript-comment">// General Public License for more details.
+</span>
+<span class="enscript-comment">// You should have received a copy of the GNU General Public License
+</span><span class="enscript-comment">// along with this library; see the file COPYING.  If not, write to
+</span><span class="enscript-comment">// the Free Software Foundation, 59 Temple Place - Suite 330, Boston,
+</span><span class="enscript-comment">// MA 02111-1307, USA.
+</span>
+<span class="enscript-comment">// As a special exception, you may use this file as part of a free
+</span><span class="enscript-comment">// software library without restriction.  Specifically, if other files
+</span><span class="enscript-comment">// instantiate templates or use macros or inline functions from this
+</span><span class="enscript-comment">// file, or you compile this file and link it with other files to
+</span><span class="enscript-comment">// produce an executable, this file does not by itself cause the
+</span><span class="enscript-comment">// resulting executable to be covered by the GNU General Public
+</span><span class="enscript-comment">// License.  This exception does not however invalidate any other
+</span><span class="enscript-comment">// reasons why the executable file might be covered by the GNU General
+</span><span class="enscript-comment">// Public License.
+</span>
+<span class="enscript-comment">// Copyright (C) 2004 Ami Tavory and Vladimir Dreizin, IBM-HRL.
+</span>
+<span class="enscript-comment">// Permission to use, copy, modify, sell, and distribute this software
+</span><span class="enscript-comment">// is hereby granted without fee, provided that the above copyright
+</span><span class="enscript-comment">// notice appears in all copies, and that both that copyright notice
+</span><span class="enscript-comment">// and this permission notice appear in supporting documentation. None
+</span><span class="enscript-comment">// of the above authors, nor IBM Haifa Research Laboratories, make any
+</span><span class="enscript-comment">// representation about the suitability of this software for any
+</span><span class="enscript-comment">// purpose. It is provided &quot;as is&quot; without express or implied
+</span><span class="enscript-comment">// warranty.
+</span>
+<span class="enscript-comment">/**
+ * @file tree_intervals_example.cpp
+ * An example showing how to augment a trees to support operations involving
+ *    line intervals.
+ */</span>
+
+<span class="enscript-comment">/**
+ * In some cases tree structure can be used for various purposes other
+ * than storing entries by key order.  This example shows how a
+ * tree-based container can be used for geometric-line intersection
+ * determination. That is, the key of the container is a pair of
+ * numbers representing a line interval. The container object can be
+ * used to query whether a line interval intersects any line interval
+ * it currently stores.
+ *
+ * This type of problem arises not only in geometric applications, but
+ * also sometimes in distributed filesystems. Assume that &quot;leases&quot; are
+ * taken for parts of files or LUNs. When a new lease is requested, it
+ * is necessary to check that it does not conflict with a lease
+ * already taken. In this case a file or LUN can be envisioned as a
+ * line segment; leases requested and granted for contiguous parts of
+ * the file or LUN can be represented as line intervals as well.
+ */</span>
+
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;cassert&gt;</span>
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;cstdlib&gt;</span>
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;ext/pb_ds/assoc_container.hpp&gt;</span>
+
+using namespace std;
+using namespace pb_ds;
+using namespace pb_ds;
+
+<span class="enscript-comment">// Following are definitions of line intervals and functors operating
+</span><span class="enscript-comment">// on them. As the purpose of this example is node invariants, and not
+</span><span class="enscript-comment">// computational-geometry algorithms per-se, some simplifications are
+</span><span class="enscript-comment">// made (e.g., intervals are defined by unsigned integers, and not by
+</span><span class="enscript-comment">// a parameterized type, data members are public, etc.).
+</span>
+<span class="enscript-comment">// An interval of unsigned integers.
+</span><span class="enscript-type">typedef</span> pair&lt; <span class="enscript-type">unsigned</span> <span class="enscript-type">int</span>, <span class="enscript-type">unsigned</span> <span class="enscript-type">int</span>&gt; interval;
+
+<span class="enscript-comment">// Functor updating maximal endpoints of entries. Algorithm taken from
+</span><span class="enscript-comment">// &quot;Introduction to Algorithms&quot; by Cormen, Leiserson, and Rivest.
+</span><span class="enscript-type">template</span>&lt;<span class="enscript-type">class</span> Const_Node_Iterator,
+	 <span class="enscript-type">class</span> Node_Iterator,
+	 <span class="enscript-type">class</span> Cmp_Fn,
+	 <span class="enscript-type">class</span> Allocator&gt;
+<span class="enscript-type">struct</span> intervals_node_update
+{
+<span class="enscript-type">public</span>:
+  <span class="enscript-comment">// The metadata that each node stores is the largest endpoint of an
+</span>  <span class="enscript-comment">// interval in its subtree. In this case, this is an unsigned int.
+</span>  <span class="enscript-type">typedef</span> <span class="enscript-type">unsigned</span> <span class="enscript-type">int</span> metadata_type;
+
+  <span class="enscript-comment">// Checks whether a set of intervals contains at least one interval
+</span>  <span class="enscript-comment">// overlapping some interval. Algorithm taken from &quot;Introduction to
+</span>  <span class="enscript-comment">// Algorithms&quot; by Cormen, Leiserson, and Rivest.
+</span>  <span class="enscript-type">bool</span>
+  overlaps(<span class="enscript-type">const</span> interval&amp; r_interval)
+  {
+    Const_Node_Iterator nd_it = node_begin();
+    Const_Node_Iterator end_it = node_end();
+
+    <span class="enscript-keyword">while</span> (nd_it != end_it)
+      {
+	<span class="enscript-comment">// Check whether r_interval overlaps the current interval.
+</span>	<span class="enscript-keyword">if</span> (r_interval.second &gt;= (*nd_it)-&gt;first&amp;&amp;
+	    r_interval.first &lt;= (*nd_it)-&gt;second)
+	  <span class="enscript-keyword">return</span> true;
+
+	<span class="enscript-comment">// Get the const node iterator of the node's left child.
+</span>	Const_Node_Iterator l_nd_it = nd_it.get_l_child();
+
+	<span class="enscript-comment">// Calculate the maximal endpoint of the left child. If the
+</span>	<span class="enscript-comment">// node has no left child, then this is the node's maximal
+</span>	<span class="enscript-comment">// endpoint.
+</span>	<span class="enscript-type">const</span> <span class="enscript-type">unsigned</span> <span class="enscript-type">int</span> l_max_endpoint =(l_nd_it == end_it)?
+	  0 : l_nd_it.get_metadata();
+
+	<span class="enscript-comment">// Now use the endpoint to determine which child to choose.
+</span>	<span class="enscript-keyword">if</span> (l_max_endpoint &gt;= r_interval.first)
+	  nd_it = l_nd_it;
+	<span class="enscript-keyword">else</span>
+	  nd_it = nd_it.get_r_child();
+      }
+
+    <span class="enscript-keyword">return</span> false;
+  }
+
+<span class="enscript-type">protected</span>:
+  <span class="enscript-comment">// Update predicate: nd_it is a node iterator to the node currently
+</span>  <span class="enscript-comment">// updated; end_nd_it is a const node iterator to a just-after leaf
+</span>  <span class="enscript-comment">// node.
+</span>  <span class="enscript-type">inline</span> <span class="enscript-type">void</span>
+  <span class="enscript-keyword">operator</span>()(Node_Iterator nd_it, Const_Node_Iterator end_nd_it)
+  {
+    <span class="enscript-comment">// The left maximal endpoint is 0 if there is no left child.
+</span>    <span class="enscript-type">const</span> <span class="enscript-type">unsigned</span> <span class="enscript-type">int</span> l_max_endpoint =(nd_it.get_l_child() == end_nd_it)?
+      0 : nd_it.get_l_child().get_metadata();
+
+    <span class="enscript-comment">// The right maximal endpoint is 0 if there is no right child.
+</span>    <span class="enscript-type">const</span> <span class="enscript-type">unsigned</span> <span class="enscript-type">int</span> r_max_endpoint =(nd_it.get_r_child() == end_nd_it)?
+      0 : nd_it.get_r_child().get_metadata();
+
+    <span class="enscript-comment">// The maximal endpoint is the endpoint of the node's interval,
+</span>    <span class="enscript-comment">// and the maximal endpoints of its children.
+</span>    const_cast&lt;<span class="enscript-type">unsigned</span> <span class="enscript-type">int</span>&amp;&gt;(nd_it.get_metadata()) =
+      max((*nd_it)-&gt;second, max&lt;<span class="enscript-type">unsigned</span> <span class="enscript-type">int</span>&gt;(l_max_endpoint, r_max_endpoint));
+  }
+
+  <span class="enscript-type">virtual</span> Const_Node_Iterator
+  node_begin() <span class="enscript-type">const</span> = 0;
+
+  <span class="enscript-type">virtual</span> Const_Node_Iterator
+  node_end() <span class="enscript-type">const</span> = 0;
+
+  <span class="enscript-type">virtual</span>
+  ~intervals_node_update()
+  { }
+};
+
+<span class="enscript-comment">// The following function performs some operation sequence on a
+</span><span class="enscript-comment">// generic associative container supporting order statistics. It
+</span><span class="enscript-comment">// inserts some intervals, and checks for overlap.
+</span><span class="enscript-type">template</span>&lt;<span class="enscript-type">class</span> Cntnr&gt;
+<span class="enscript-type">void</span>
+<span class="enscript-function-name">some_op_sequence</span>(Cntnr r_c)
+{
+  <span class="enscript-comment">// Insert some entries.
+</span>  r_c.insert(make_pair(0, 100));
+  r_c.insert(make_pair(150, 160));
+  r_c.insert(make_pair(300, 1000));
+  r_c.insert(make_pair(10000, 100000));
+  r_c.insert(make_pair(200, 100200));
+
+  <span class="enscript-comment">// Test overlaps.
+</span>
+  <span class="enscript-comment">// Overlaps 150 - 160
+</span>  assert(r_c.overlaps(make_pair(145, 165)) == true);
+  <span class="enscript-comment">// Overlaps 150 - 160
+</span>  assert(r_c.overlaps(make_pair(145, 155)) == true);
+  assert(r_c.overlaps(make_pair(165, 175)) == false);
+  assert(r_c.overlaps(make_pair(100201, 100203)) == false);
+
+  <span class="enscript-comment">// Erase an interval
+</span>  r_c.erase(make_pair(150, 160));
+
+  <span class="enscript-comment">// Test overlaps again.
+</span>  assert(r_c.overlaps(make_pair(145, 165)) == false);
+  assert(r_c.overlaps(make_pair(165, 175)) == false);
+  assert(r_c.overlaps(make_pair(0, 300000)) == true);
+}
+
+<span class="enscript-type">int</span> <span class="enscript-function-name">main</span>()
+{
+  <span class="enscript-comment">// Test a red-black tree.
+</span>  some_op_sequence(tree&lt;
+		   interval,
+		   null_mapped_type,
+		   less&lt;interval&gt;,
+		   rb_tree_tag,
+		   intervals_node_update&gt;());
+
+  <span class="enscript-comment">// Test an ordered-vector tree.
+</span>  some_op_sequence(tree&lt;
+		   interval,
+		   null_mapped_type,
+		   less&lt;interval&gt;,
+		   ov_tree_tag,
+		   intervals_node_update&gt;());
+
+  <span class="enscript-comment">// Test a splay tree.
+</span>  some_op_sequence(tree&lt;
+		   interval,
+		   null_mapped_type,
+		   less&lt;interval&gt;,
+		   splay_tree_tag,
+		   intervals_node_update&gt;());
+
+  <span class="enscript-keyword">return</span> 0;
+}
+
+</pre>
+<hr />
+</body></html>

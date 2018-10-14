@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>store_hash.cc</title>
+<style type="text/css">
+.enscript-comment { font-style: italic; color: rgb(178,34,34); }
+.enscript-function-name { font-weight: bold; color: rgb(0,0,255); }
+.enscript-variable-name { font-weight: bold; color: rgb(184,134,11); }
+.enscript-keyword { font-weight: bold; color: rgb(160,32,240); }
+.enscript-reference { font-weight: bold; color: rgb(95,158,160); }
+.enscript-string { font-weight: bold; color: rgb(188,143,143); }
+.enscript-builtin { font-weight: bold; color: rgb(218,112,214); }
+.enscript-type { font-weight: bold; color: rgb(34,139,34); }
+.enscript-highlight { text-decoration: underline; color: 0; }
+</style>
+</head>
+<body id="top">
+<h1 style="margin:8px;" id="f1">store_hash.cc&nbsp;&nbsp;&nbsp;<span style="font-weight: normal; font-size: 0.5em;">[<a href="?txt">plain text</a>]</span></h1>
+<hr/>
+<div></div>
+<pre>
+<span class="enscript-comment">// -*- C++ -*-
+</span>
+<span class="enscript-comment">// Copyright (C) 2005, 2006 Free Software Foundation, Inc.
+</span><span class="enscript-comment">//
+</span><span class="enscript-comment">// This file is part of the GNU ISO C++ Library.  This library is free
+</span><span class="enscript-comment">// software; you can redistribute it and/or modify it under the terms
+</span><span class="enscript-comment">// of the GNU General Public License as published by the Free Software
+</span><span class="enscript-comment">// Foundation; either version 2, or (at your option) any later
+</span><span class="enscript-comment">// version.
+</span>
+<span class="enscript-comment">// This library is distributed in the hope that it will be useful, but
+</span><span class="enscript-comment">// WITHOUT ANY WARRANTY; without even the implied warranty of
+</span><span class="enscript-comment">// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+</span><span class="enscript-comment">// General Public License for more details.
+</span>
+<span class="enscript-comment">// You should have received a copy of the GNU General Public License
+</span><span class="enscript-comment">// along with this library; see the file COPYING.  If not, write to
+</span><span class="enscript-comment">// the Free Software Foundation, 59 Temple Place - Suite 330, Boston,
+</span><span class="enscript-comment">// MA 02111-1307, USA.
+</span>
+<span class="enscript-comment">// As a special exception, you may use this file as part of a free
+</span><span class="enscript-comment">// software library without restriction.  Specifically, if other files
+</span><span class="enscript-comment">// instantiate templates or use macros or inline functions from this
+</span><span class="enscript-comment">// file, or you compile this file and link it with other files to
+</span><span class="enscript-comment">// produce an executable, this file does not by itself cause the
+</span><span class="enscript-comment">// resulting executable to be covered by the GNU General Public
+</span><span class="enscript-comment">// License.  This exception does not however invalidate any other
+</span><span class="enscript-comment">// reasons why the executable file might be covered by the GNU General
+</span><span class="enscript-comment">// Public License.
+</span>
+<span class="enscript-comment">// Copyright (C) 2004 Ami Tavory and Vladimir Dreizin, IBM-HRL.
+</span>
+<span class="enscript-comment">// Permission to use, copy, modify, sell, and distribute this software
+</span><span class="enscript-comment">// is hereby granted without fee, provided that the above copyright
+</span><span class="enscript-comment">// notice appears in all copies, and that both that copyright notice
+</span><span class="enscript-comment">// and this permission notice appear in supporting documentation. None
+</span><span class="enscript-comment">// of the above authors, nor IBM Haifa Research Laboratories, make any
+</span><span class="enscript-comment">// representation about the suitability of this software for any
+</span><span class="enscript-comment">// purpose. It is provided &quot;as is&quot; without express or implied
+</span><span class="enscript-comment">// warranty.
+</span>
+<span class="enscript-comment">/**
+ * @file store_hash_example.cpp
+ * An example showing how to store hash-values with
+ *     each entry in a hash-based container.
+ */</span>
+
+<span class="enscript-comment">/**
+ * This example shows how to configure a hash-based container to store
+ * the hash value of each key along with each entry. This technique
+ * is useful for complex keys (e.g., strings in this example), since
+ * it lowers the cost of collisions. For simpler types (e.g., integers),
+ * where the cost of comparing keys is of the same order as the cost
+ * of comparing hash values, this technique adds unnecessary overhead.
+ */</span>
+
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;functional&gt;</span>
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;string&gt;</span>
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;ext/pb_ds/assoc_container.hpp&gt;</span>
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;ext/pb_ds/hash_policy.hpp&gt;</span>
+
+using namespace std;
+using namespace pb_ds;
+
+<span class="enscript-comment">// A string hash functor.
+</span><span class="enscript-type">struct</span> string_hash : <span class="enscript-type">public</span> unary_function&lt;string, size_t&gt;
+{
+  <span class="enscript-type">inline</span> size_t
+  <span class="enscript-keyword">operator</span>()(string str) <span class="enscript-type">const</span>
+  {
+    <span class="enscript-reference">string</span>::const_iterator b = str.begin();
+    <span class="enscript-reference">string</span>::const_iterator e = str.end();
+
+    size_t hash = 0;
+    <span class="enscript-keyword">while</span> (b != e)
+      {
+	hash *= 5;
+	hash += static_cast&lt;size_t&gt;(*b);
+	++b;
+      }
+    <span class="enscript-keyword">return</span> hash;
+  }
+};
+
+<span class="enscript-type">int</span> <span class="enscript-function-name">main</span>()
+{
+  <span class="enscript-comment">// A collision-chaining hash table mapping strings to ints.
+</span>  <span class="enscript-type">typedef</span>
+    cc_hash_table&lt;
+    string,
+    <span class="enscript-type">int</span>,
+    string_hash,
+    equal_to&lt;string&gt;,
+    direct_mask_range_hashing&lt;&gt;,
+    hash_standard_resize_policy&lt;&gt;,
+    true&gt;
+    map_t;
+
+  map_t h;
+
+  <span class="enscript-comment">// Use regularly.
+</span>  h[<span class="enscript-string">&quot;Hello, &quot;</span>] = 0;
+  h[<span class="enscript-string">&quot;world&quot;</span>] = 1;
+
+  <span class="enscript-keyword">return</span> 0;
+}
+
+</pre>
+<hr />
+</body></html>

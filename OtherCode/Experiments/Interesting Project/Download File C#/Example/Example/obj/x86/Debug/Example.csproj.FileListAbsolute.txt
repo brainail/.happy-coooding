@@ -1,0 +1,6 @@
+D:\!My Docs\!Programming\Teaching\C#\Example\Example\bin\Debug\Example.exe
+D:\!My Docs\!Programming\Teaching\C#\Example\Example\bin\Debug\Example.pdb
+D:\!My Docs\!Programming\Teaching\C#\Example\Example\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\!My Docs\!Programming\Teaching\C#\Example\Example\obj\x86\Debug\Example.exe
+D:\!My Docs\!Programming\Teaching\C#\Example\Example\obj\x86\Debug\Example.pdb
+D:\!My Docs\!Programming\Teaching\C#\Example\Example\bin\Debug\Example.XML

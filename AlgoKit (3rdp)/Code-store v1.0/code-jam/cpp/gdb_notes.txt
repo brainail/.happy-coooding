@@ -1,0 +1,51 @@
+1.1 Start debugging with GDB:
+	$ gdb m4
+1.2 Set display width
+	(gdb) set width 70
+1.3 Set breakpoint (break || b)
+	(gdb) break m4_changequote
+1.4 Running (run || r)
+	(gdb) r
+
+How to load program reading stdin and taking parameters in gdb?
+    % gdb myprogram
+    gdb> run params ... < input.txt
+
+1.5 Execution to the next line (next || n)
+	(gdb) n
+1.6 Go into subroutine (step || s)
+	(gdb) s
+1.7 Call a stack frame display (backtrace || bt)
+	(gdb) bt
+1.8 Display values (print || p)
+	(gdb) p lquote
+	(gdb) p rquote
+1.9 Look some context (list || l)
+	(gdb) l
+1.10 Set value (print || p)
+	(gdb) p len_lquote = strlen(lquote)
+	(gdb) p len_rquote = strlen(rquote)
+1.11 Continue executing (continue || c)
+	(gdb) c
+1.12 End GDB session (quit || q)
+	(gdb) q
+2.1 Invoking GDB
+	gdb program             // the most usual way to start GDB
+	gdb program core        // start program and a core file
+	gdb program processID   // specify a process ID, if process ID name conflict with core file, GDB does check for a core file first
+	gdb --quiet --args gcc -O2 -c foo.c   // start to debug gcc, with arguments
+2.1.1 Choosing files
+2.1.2 Choosing modes
+	// Too many options. Please refer to book's page 12 ~ 15.
+2.3 Shell commands
+	Invoke shell commands ('/bin/bash' on Unix)
+	# shell command string
+	(gdb) shell g++ -o a a.cpp
+	The utility make is often needed. So you don't need to type shell.
+	# make make-args
+2.4 Logging output
+	set logging [on|off]
+	set logging file [file]
+	set logging overwrite [on|off]
+	set logging redirect [on|off]
+	show logging

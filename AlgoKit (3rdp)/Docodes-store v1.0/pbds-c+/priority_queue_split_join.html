@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>priority_queue_split_join.cc</title>
+<style type="text/css">
+.enscript-comment { font-style: italic; color: rgb(178,34,34); }
+.enscript-function-name { font-weight: bold; color: rgb(0,0,255); }
+.enscript-variable-name { font-weight: bold; color: rgb(184,134,11); }
+.enscript-keyword { font-weight: bold; color: rgb(160,32,240); }
+.enscript-reference { font-weight: bold; color: rgb(95,158,160); }
+.enscript-string { font-weight: bold; color: rgb(188,143,143); }
+.enscript-builtin { font-weight: bold; color: rgb(218,112,214); }
+.enscript-type { font-weight: bold; color: rgb(34,139,34); }
+.enscript-highlight { text-decoration: underline; color: 0; }
+</style>
+</head>
+<body id="top">
+<h1 style="margin:8px;" id="f1">priority_queue_split_join.cc&nbsp;&nbsp;&nbsp;<span style="font-weight: normal; font-size: 0.5em;">[<a href="?txt">plain text</a>]</span></h1>
+<hr/>
+<div></div>
+<pre>
+<span class="enscript-comment">// -*- C++ -*-
+</span>
+<span class="enscript-comment">// Copyright (C) 2005, 2006 Free Software Foundation, Inc.
+</span><span class="enscript-comment">//
+</span><span class="enscript-comment">// This file is part of the GNU ISO C++ Library.  This library is free
+</span><span class="enscript-comment">// software; you can redistribute it and/or modify it under the terms
+</span><span class="enscript-comment">// of the GNU General Public License as published by the Free Software
+</span><span class="enscript-comment">// Foundation; either version 2, or (at your option) any later
+</span><span class="enscript-comment">// version.
+</span>
+<span class="enscript-comment">// This library is distributed in the hope that it will be useful, but
+</span><span class="enscript-comment">// WITHOUT ANY WARRANTY; without even the implied warranty of
+</span><span class="enscript-comment">// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+</span><span class="enscript-comment">// General Public License for more details.
+</span>
+<span class="enscript-comment">// You should have received a copy of the GNU General Public License
+</span><span class="enscript-comment">// along with this library; see the file COPYING.  If not, write to
+</span><span class="enscript-comment">// the Free Software Foundation, 59 Temple Place - Suite 330, Boston,
+</span><span class="enscript-comment">// MA 02111-1307, USA.
+</span>
+<span class="enscript-comment">// As a special exception, you may use this file as part of a free
+</span><span class="enscript-comment">// software library without restriction.  Specifically, if other files
+</span><span class="enscript-comment">// instantiate templates or use macros or inline functions from this
+</span><span class="enscript-comment">// file, or you compile this file and link it with other files to
+</span><span class="enscript-comment">// produce an executable, this file does not by itself cause the
+</span><span class="enscript-comment">// resulting executable to be covered by the GNU General Public
+</span><span class="enscript-comment">// License.  This exception does not however invalidate any other
+</span><span class="enscript-comment">// reasons why the executable file might be covered by the GNU General
+</span><span class="enscript-comment">// Public License.
+</span>
+<span class="enscript-comment">// Copyright (C) 2004 Ami Tavory and Vladimir Dreizin, IBM-HRL.
+</span>
+<span class="enscript-comment">// Permission to use, copy, modify, sell, and distribute this software
+</span><span class="enscript-comment">// is hereby granted without fee, provided that the above copyright
+</span><span class="enscript-comment">// notice appears in all copies, and that both that copyright notice
+</span><span class="enscript-comment">// and this permission notice appear in supporting documentation. None
+</span><span class="enscript-comment">// of the above authors, nor IBM Haifa Research Laboratories, make any
+</span><span class="enscript-comment">// representation about the suitability of this software for any
+</span><span class="enscript-comment">// purpose. It is provided &quot;as is&quot; without express or implied
+</span><span class="enscript-comment">// warranty.
+</span>
+<span class="enscript-comment">/**
+ * @file priority_queue_split_join_example.cpp
+ * A basic example showing how to split and join priority queues.
+ */</span>
+
+<span class="enscript-comment">/**
+ * This example shows how to split and join priority queues.
+ */</span>
+
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;functional&gt;</span>
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;iostream&gt;</span>
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;cassert&gt;</span>
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;ext/pb_ds/priority_queue.hpp&gt;</span>
+
+using namespace std;
+using namespace pb_ds;
+using namespace pb_ds;
+
+<span class="enscript-type">int</span>
+<span class="enscript-function-name">main</span>()
+{
+  <span class="enscript-comment">// Two priority queue objects.
+</span>  <span class="enscript-reference">pb_ds</span>::priority_queue&lt;<span class="enscript-type">int</span>&gt; even_p, odd_p;
+
+  <span class="enscript-comment">// First we insert some values: even ones into even_p, and odd ones
+</span>  <span class="enscript-comment">// into odd_p.
+</span>  <span class="enscript-keyword">for</span> (size_t i = 0; i &lt; 10; ++i)
+    {
+      even_p.push(2*  i);
+      odd_p.push(2*  i + 1);
+    }
+
+  <span class="enscript-comment">// Check that each one contains the appropriate 10 values.
+</span>  assert(even_p.size() == 10);
+  assert(even_p.top() == 18);
+
+  <span class="enscript-comment">// Print out the values.
+</span>  cout &lt;&lt; <span class="enscript-string">&quot;Initial values in even priority queue:&quot;</span> &lt;&lt; endl;
+  <span class="enscript-reference">pb_ds</span>::priority_queue&lt;<span class="enscript-type">int</span>&gt;::const_iterator it;
+  <span class="enscript-keyword">for</span> (it = even_p.begin(); it != even_p.end(); ++it)
+    cout &lt;&lt;* it &lt;&lt; endl;
+
+  assert(odd_p.size() == 10);
+  assert(odd_p.top() == 19);
+
+  <span class="enscript-comment">// Print out the values.
+</span>  cout &lt;&lt; <span class="enscript-string">&quot;Initial values in odd priority queue:&quot;</span> &lt;&lt; endl;
+  <span class="enscript-keyword">for</span> (it = odd_p.begin(); it != odd_p.end(); ++it)
+    cout &lt;&lt;* it &lt;&lt; endl;
+
+  <span class="enscript-comment">// Now join the queues.
+</span>  even_p.join(odd_p);
+
+  <span class="enscript-comment">// Check that each one contains the appropriate values.
+</span>
+  assert(even_p.size() == 20);
+  assert(even_p.top() == 19);
+
+  <span class="enscript-comment">// Print out the values.
+</span>  cout &lt;&lt; <span class="enscript-string">&quot;After-join values in even priority queue:&quot;</span> &lt;&lt; endl;
+  <span class="enscript-keyword">for</span> (it = even_p.begin(); it != even_p.end(); ++it)
+    cout &lt;&lt;* it &lt;&lt; endl;
+
+  assert(odd_p.size() == 0);
+
+  <span class="enscript-comment">// Print out the values.
+</span>  cout &lt;&lt; <span class="enscript-string">&quot;After-join values in odd priority queue:&quot;</span> &lt;&lt; endl;
+  <span class="enscript-keyword">for</span> (it = odd_p.begin(); it != odd_p.end(); ++it)
+    cout &lt;&lt;* it &lt;&lt; endl;
+
+  <span class="enscript-comment">// Now split the queues.
+</span>  even_p.split(bind2nd(modulus&lt;<span class="enscript-type">int</span>&gt;(), 2), odd_p);
+
+  <span class="enscript-comment">// Check that each one contains the appropriate 10 values.
+</span>
+  assert(even_p.size() == 10);
+  assert(even_p.top() == 18);
+
+  <span class="enscript-comment">// Print out the values.
+</span>  cout &lt;&lt; <span class="enscript-string">&quot;After-split values in even priority queue:&quot;</span> &lt;&lt; endl;
+  <span class="enscript-keyword">for</span> (it = even_p.begin(); it != even_p.end(); ++it)
+    cout &lt;&lt;* it &lt;&lt; endl;
+
+  assert(odd_p.size() == 10);
+  assert(odd_p.top() == 19);
+
+  <span class="enscript-comment">// Print out the values.
+</span>  cout &lt;&lt; <span class="enscript-string">&quot;After-split values in odd priority queue:&quot;</span> &lt;&lt; endl;
+  <span class="enscript-keyword">for</span> (it = odd_p.begin(); it != odd_p.end(); ++it)
+    cout &lt;&lt;* it &lt;&lt; endl;
+
+  <span class="enscript-keyword">return</span> 0;
+}
+
+</pre>
+<hr />
+</body></html>

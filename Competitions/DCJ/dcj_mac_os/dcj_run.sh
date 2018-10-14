@@ -1,0 +1,1 @@
+sudo python dcj.py test --source _dcj_solution/_dcj_solution.cpp --nodes $1

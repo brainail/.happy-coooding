@@ -1,0 +1,106 @@
+/* Miscellaneous: Tables
+   =================================================================
+   Description: A variety of tables dealing with subjects that
+                may be useful to programmming...
+   
+   -----------------------------------------------------------------
+   Author:      Gilbert Lee
+   Date:        Jan 21, 2003
+   References:  various
+   -----------------------------------------------------------------
+   Reliability: 0
+   Notes:       
+
+Contents:
+
+====================================================================
+Combinatorics:
+--------------
+Length of uncrossed knight's path on n*n board
+Minimal number of knights to cover n*n board
+N-bead necklaces with 2 colors, allowing turning over (bracelets)
+N-bead necklaces with 2 colors when turning over is not allowed
+Partitions of n
+Polyominoes (or square animals) with n cells (no holes)
+Polyominoes (or square animals) with n cells (possible holes)
+Unlabelled connected graphs with n nodes
+Unlabelled graphs with n nodes
+Ways of placing n nonattacking queens on n X n board
+
+====================================================================
+
+Length of uncrossed knight's path on n*n board
+source: Sequence A003192
+start : N = 3
+seq   : 2,5,10,17,24,35
+
+Minimal number of knights to cover n*n board
+source: Sequence A006075
+start : N = 1
+seq   : 1,4,4,4,5,8,10,12,14,16,21,24,28,32,36,40,46,52,57,62,68,75,
+        82,88,96,102
+
+N-bead necklaces with 2 colors, allowing turning over (bracelets)
+source: Sequence A000029
+start : N = 0
+seq   : 1,2,3,4,6,8,13,18,30,46,78,126,224,380,687,1224,2250,4112,
+        7685,14310,27012,50964,96909,184410,352698,675188,1296858,
+        2493726,4806078,9272780,17920860,34669602,67159050,
+        130216124,252745368,490984488
+
+N-bead necklaces with 2 colors when turning over is not allowed
+source: Sequence A000031
+start : N = 0
+seq   : 1,2,3,4,6,8,14,20,36,60,108,188,352,632,1182,2192,4116,7712,
+        14602,27596,52488,99880,190746,364724,699252,1342184,
+        2581428,4971068,9587580,18512792,35792568,69273668,
+        134219796,260301176,505294128,981706832
+
+Partitions of n
+source: Sequence A000041
+start : 0
+seq   : 1,1,2,3,5,7,11,15,22,30,42,56,77,101,135,176,231,297,385,
+        490,627,792,1002,1255,1575,1958,2436,3010,3718,4565,5604,
+        6842,8349,10143,12310,14883,17977,21637,26015,31185,37338,
+        44583,53174,63261,75175,89134
+
+Polyominoes (or square animals) with n cells (no holes)
+source: Sequence A000104
+start : N = 1
+seq   : 1,1,1,2,5,12,35,107,363,1248,4460,16094,58937,217117,805475,
+        3001127,11230003,42161529,158781106,599563893,2269506062,
+        8609442688,32725637373,124621833354,475368834568,
+        1816103345752,6948228104703
+
+Polyominoes (or square animals) with n cells (possible holes)
+source: Sequence A000105
+start : N = 1
+seq   :	1,1,1,2,5,12,35,108,369,1285,4655,17073,63600,238591,901971,
+	3426576,13079255,50107909,192622052,742624232,2870671950,
+	11123060678,43191857688,168047007728,654999700403,
+        2557227044764,9999088822075,39153010938487,153511100594603
+
+Ways of placing n nonattacking queens on n X n board
+source: Sequence A000170
+start : N = 1
+seq   : 1,0,0,2,10,4,40,92,352,724,2680,14200,73712,365596,2279184,
+        14772512,95815104,666090624,4968057848,39029188884,
+	314666222712,2691008701644,24233937684440
+
+Unlabelled connected graphs with n nodes
+source: Sequence A001349
+start : N = 0
+seq   : 1,1,1,2,6,21,112,853,11117,261080,11716571,1006700565,
+        164059830476,50335907869219,29003487462848061,
+        31397381142761241960,63969560113225176176277,
+        245871831682084026519528568,1787331725248899088890200576580,
+        24636021429399867655322650759681644
+
+Unlabelled graphs with n nodes
+source: Sequence A000088
+start : N = 0
+seq   : 1,1,2,4,11,34,156,1044,12346,274668,12005168,1018997864,
+        165091172592,50502031367952,29054155657235488,
+        31426485969804308768,64001015704527557894928,
+        245935864153532932683719776,1787577725145611700547878190848,
+        24637809253125004524383007491432768

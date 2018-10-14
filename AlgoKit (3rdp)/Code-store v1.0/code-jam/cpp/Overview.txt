@@ -1,0 +1,148 @@
+Data Structures & Libraries
+	Static array, vector, bitset, Direct Addressing Table
+		482,594,11340
+	<algorithm>
+		146,10194,10258
+	Sorting
+		299,11462,11495
+	<stack>
+		514,673,727
+	<queue>
+		336,10901,11034
+	<map/set>
+		10226,11308,11136
+	<priority_queue>
+		908,11492
+Custom
+	Graph
+		291,10928
+	Union-Find Disjoint Sets
+		459,793,11503
+	Segment Tree
+		11235,11297,11402
+
+Complete Search
+	Iterative
+		725,10360,11242
+	Recursive Backtracking
+		193,624,750
+DP
+	LIS
+		481,11456,11790
+	Coin Change
+		357,10306,11517
+	Max Sum
+		108,507,10827
+	0-1 Knapsack
+		562,990,10130
+	DP+Bitmasks
+		10364,10651,10911
+	DP+Graph
+		590,910,10702
+	DP+Tree
+		10243,11307
+D&C
+	679,714,10341
+Greedy
+	410,10340,10670
+
+Graph
+	DFS
+		Connected components/Floodfill
+			469,657,11110
+		Articulation points/Bridges
+			315,796,10199
+		SCC
+			10731,11504,11709
+		TopoSort
+			124,872,10305
+	Dijkstra - SSSP, non-negative edges, both un/directed ok
+		341,10801,11492
+	APSP
+		Floyd Warshall
+			821,10171,11463
+			334,869,10048
+	Special
+		Tree
+			10308,10938,11695
+		SS(S|L)P in DAG
+			103,10000,10350
+		Counting paths
+			825,926,988
+		Bipartite graphs
+			Max cardinality
+				670,10092,11045
+			Max weighted independent set
+				11159
+			Max vertex cover
+				11419
+	BFS - SSSP on unweighted graph
+		336,532,10653
+		10004,11101,11624
+	Kruskal - MST
+		908,11631,11747
+		10369,10397,10600
+	Bellman Ford
+		- SSSP in a weighted digraph (with negative edge weights)
+		- detect negative cycles
+		558,10557,11280
+	Ford Fulkerson/Edmonds Karp
+		820,10480,11506
+		563,10330,10594
+
+Math
+	Number Theory
+		Prime numbers
+			543,10539,10738
+		GCD/LCM
+			10407,10717,10892
+		Euler's totient (Phi) function
+			10179,10299,10820
+		Extended Euclid algorithm
+			718,100090,10104
+		Modulo arithmetic
+			374,10176,10212
+		Fibonacci numbers
+			763,10334,10862
+		Factorial
+			324,623,11347
+		BigInteger
+			10523,10814,10925
+		Combinatorics
+			991,10007,11401
+		Cycle-finding
+			350,10591,11053
+	Sequences
+		100,10408,10930
+	Number systems
+		443,10042,11472
+	Probability theory
+		10491,11176,11181
+	Linear algebra
+		10089,10109
+
+String processing
+	Suffix array
+		719,11107,11512
+	String processing+DP
+		164,10192,11151
+
+Geometry
+	Lines
+		270,10263,11227
+	Circles
+		10005,10012,10451
+	Triangles+Circles
+		190,10286,11152
+	Rectangles
+		476,11207,11455
+	Great circle distance
+		535,10075,11817
+	Polygons
+		634,10078,11447
+	Convex hull - Graham's scan
+		109,811,10065
+	Line segment intersection
+		191,378,10902
+	D&C
+		10245,10566,11646

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="MyProject" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="MyProject" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="C:\CodeBlock\GLUT\bin" />
+				<Option object_output="obj\Debug\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="MyProject" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="C:\CodeBlock\GLUT\bin" />
+				<Option object_output="obj\Release\" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add directory="C:\CodeBlock\GLUT\include" />
+		</Compiler>
+		<Linker>
+			<Add library="glut32" />
+			<Add library="opengl32" />
+			<Add library="glu32" />
+			<Add library="winmm" />
+			<Add library="gdi32" />
+			<Add directory="C:\CodeBlock\GLUT\lib" />
+		</Linker>
+		<Unit filename="GEListener.cpp" />
+		<Unit filename="GEListener.h" />
+		<Unit filename="GEListenerImpl.cpp" />
+		<Unit filename="GEListenerImpl.h" />
+		<Unit filename="GERunner.cpp" />
+		<Unit filename="GERunner.h" />
+		<Unit filename="GEngine\GCamera.cpp" />
+		<Unit filename="GEngine\GCamera.h" />
+		<Unit filename="GEngine\GColor.cpp" />
+		<Unit filename="GEngine\GColor.h" />
+		<Unit filename="GEngine\GCubeGrid.cpp" />
+		<Unit filename="GEngine\GCubeGrid.h" />
+		<Unit filename="GEngine\GCylinder.cpp" />
+		<Unit filename="GEngine\GCylinder.h" />
+		<Unit filename="GEngine\GObject.cpp" />
+		<Unit filename="GEngine\GObject.h" />
+		<Unit filename="GEngine\GPoint.cpp" />
+		<Unit filename="GEngine\GPoint.h" />
+		<Unit filename="GEngine\GQuaternion.cpp" />
+		<Unit filename="GEngine\GQuaternion.h" />
+		<Unit filename="GEngine\GShape.cpp" />
+		<Unit filename="GEngine\GShape.h" />
+		<Unit filename="GEngine\GSphere.cpp" />
+		<Unit filename="GEngine\GSphere.h" />
+		<Unit filename="GEngine\GVector3.cpp" />
+		<Unit filename="GEngine\GVector3.h" />
+		<Unit filename="main.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

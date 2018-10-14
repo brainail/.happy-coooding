@@ -1,0 +1,250 @@
+# depslib dependency file v1.0
+1313059542 source:c:\codeblock\projects\myproject\main.cpp
+	<GL/glut.h>
+	<stdlib.h>
+	<fstream>
+	<cmath>
+	<iostream>
+	<vector>
+	"glCamera.h"
+
+881804480 c:\codeblock\glut\include\gl\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1312461436 source:c:\codeblock\projects\myproject\glpoint.cpp
+	"glPoint.h"
+
+1312461417 c:\codeblock\projects\myproject\glpoint.h
+	<gl\gl.h>
+	<gl\glu.h>
+
+1312460438 source:c:\codeblock\projects\myproject\glquaternion.cpp
+	"glQuaternion.h"
+
+1312460414 c:\codeblock\projects\myproject\glquaternion.h
+	<gl\gl.h>
+	<gl\glu.h>
+	<math.h>
+
+1312461382 source:c:\codeblock\projects\myproject\glvector.cpp
+	"glVector.h"
+
+1312461398 c:\codeblock\projects\myproject\glvector.h
+	<gl\gl.h>
+	<gl\glu.h>
+
+1312465332 source:c:\codeblock\projects\myproject\glcamera.cpp
+	"glCamera.h"
+
+1312465196 c:\codeblock\projects\myproject\glcamera.h
+	<gl\gl.h>
+	<gl\glu.h>
+	"glQuaternion.h"
+	"glPoint.h"
+	"glVector.h"
+	<gl\gl.h>
+	<gl\glu.h>
+	"glQuaternion.h"
+	"glPoint.h"
+	"glVector.h"
+
+1312461436 source:d:\!my docs\!programming\teaching\opengl\graphicview 2.0\glpoint.cpp
+	"glPoint.h"
+
+1312461417 d:\!my docs\!programming\teaching\opengl\graphicview 2.0\glpoint.h
+	<gl\gl.h>
+	<gl\glu.h>
+
+1312460438 source:d:\!my docs\!programming\teaching\opengl\graphicview 2.0\glquaternion.cpp
+	"glQuaternion.h"
+
+1312460414 d:\!my docs\!programming\teaching\opengl\graphicview 2.0\glquaternion.h
+	<gl\gl.h>
+	<gl\glu.h>
+	<math.h>
+
+1312461382 source:d:\!my docs\!programming\teaching\opengl\graphicview 2.0\glvector.cpp
+	"glVector.h"
+
+1312461398 d:\!my docs\!programming\teaching\opengl\graphicview 2.0\glvector.h
+	<gl\gl.h>
+	<gl\glu.h>
+
+1313580409 source:d:\!my docs\!programming\teaching\opengl\graphicview 2.0\main.cpp
+	<windows.h>
+	<iostream>
+	<GL/glut.h>
+	<stdlib.h>
+	<fstream>
+	<cmath>
+	<iostream>
+	<vector>
+	"glCamera.h"
+
+1312465196 d:\!my docs\!programming\teaching\opengl\graphicview 2.0\glcamera.h
+	<gl\gl.h>
+	<gl\glu.h>
+	"glQuaternion.h"
+	"glPoint.h"
+	"glVector.h"
+	<gl\gl.h>
+	<gl\glu.h>
+	"glQuaternion.h"
+	"glPoint.h"
+	"glVector.h"
+
+1312465332 source:d:\!my docs\!programming\teaching\opengl\graphicview 2.0\glcamera.cpp
+	"glCamera.h"
+
+1312461436 source:d:\!my docs\!programming\teaching\opengl\graphicviewpipe\glpoint.cpp
+	"glPoint.h"
+
+1312461417 d:\!my docs\!programming\teaching\opengl\graphicviewpipe\glpoint.h
+	<gl\gl.h>
+	<gl\glu.h>
+
+1312460438 source:d:\!my docs\!programming\teaching\opengl\graphicviewpipe\glquaternion.cpp
+	"glQuaternion.h"
+
+1312460414 d:\!my docs\!programming\teaching\opengl\graphicviewpipe\glquaternion.h
+	<gl\gl.h>
+	<gl\glu.h>
+	<math.h>
+
+1312461382 source:d:\!my docs\!programming\teaching\opengl\graphicviewpipe\glvector.cpp
+	"glVector.h"
+
+1312461398 d:\!my docs\!programming\teaching\opengl\graphicviewpipe\glvector.h
+	<gl\gl.h>
+	<gl\glu.h>
+
+1313609003 source:d:\!my docs\!programming\teaching\opengl\graphicviewpipe\main.cpp
+	<windows.h>
+	<gl\glut.h>
+	"GERunner.h"
+	"GEListenerImpl.h"
+
+1312465196 d:\!my docs\!programming\teaching\opengl\graphicviewpipe\glcamera.h
+	<gl\gl.h>
+	<gl\glu.h>
+	"glQuaternion.h"
+	"glPoint.h"
+	"glVector.h"
+	<gl\gl.h>
+	<gl\glu.h>
+	"glQuaternion.h"
+	"glPoint.h"
+	"glVector.h"
+
+1312465332 source:d:\!my docs\!programming\teaching\opengl\graphicviewpipe\glcamera.cpp
+	"glCamera.h"
+
+1313513663 source:d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gelistener.cpp
+	"GEListener.h"
+
+1313574767 d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gelistener.h
+	<GL\gl.h>
+	<GL\glut.h>
+
+1313574734 source:d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gerunner.cpp
+	"GERunner.h"
+
+1313574669 d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gerunner.h
+	"GEListener.h"
+
+1313577903 source:d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gengine\gcamera.cpp
+	"GCamera.h"
+
+1313684873 d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gengine\gcamera.h
+	"GObject.h"
+
+1313684150 d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gengine\gobject.h
+	"GQuaternion.h"
+	"GVector3.h"
+
+1313539465 d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gengine\gquaternion.h
+	"GVector3.h"
+
+1313571656 d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gengine\gvector3.h
+	<gl\gl.h>
+
+1313571809 source:d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gengine\gcolor.cpp
+	"GColor.h"
+
+1313571675 d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gengine\gcolor.h
+	<gl\gl.h>
+
+1313612200 source:d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gengine\gcubegrid.cpp
+	<windows.h>
+	<GL/glut.h>
+	<stdlib.h>
+	"GCubeGrid.h"
+
+1313539610 d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gengine\gcubegrid.h
+	"GShape.h"
+
+1313612056 d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gengine\gshape.h
+	"GObject.h"
+	"GColor.h"
+
+1313683926 source:d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gengine\gcylinder.cpp
+	<windows.h>
+	<GL/glut.h>
+	<stdlib.h>
+	<cmath>
+	"GCylinder.h"
+	"GVector3.h"
+
+1313539606 d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gengine\gcylinder.h
+	"GShape.h"
+	"GPoint.h"
+
+1313571912 d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gengine\gpoint.h
+	<gl\gl.h>
+
+1313571860 source:d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gengine\gobject.cpp
+	"GObject.h"
+	<cmath>
+
+1313571979 source:d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gengine\gpoint.cpp
+	"GPoint.h"
+
+1313576390 source:d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gengine\gquaternion.cpp
+	"GQuaternion.h"
+	<cmath>
+
+1313612066 source:d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gengine\gshape.cpp
+	"GShape.h"
+
+1313683961 source:d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gengine\gsphere.cpp
+	<windows.h>
+	<GL/glut.h>
+	<stdlib.h>
+	"GSphere.h"
+
+1313539547 d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gengine\gsphere.h
+	"GShape.h"
+	"GPoint.h"
+
+1313576264 source:d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gengine\gvector3.cpp
+	"GVector3.h"
+	<cmath>
+
+1313609583 d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gelistenerimpl.h
+	"GEListener.h"
+	"GEngine\GCamera.h"
+	"GEngine\GCubeGrid.h"
+	"GEngine\GPoint.h"
+	"GEngine\GSphere.h"
+	"GEngine\GCylinder.h"
+	<vector>
+	<fstream>
+	<iostream>
+
+1313684645 source:d:\!my docs\!programming\teaching\opengl\graphicviewpipe\gelistenerimpl.cpp
+	"GEListenerImpl.h"
+	<cmath>
+	<windows.h>
+

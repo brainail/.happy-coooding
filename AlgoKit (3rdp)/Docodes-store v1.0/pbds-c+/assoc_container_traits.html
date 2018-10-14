@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>assoc_container_traits.cc</title>
+<style type="text/css">
+.enscript-comment { font-style: italic; color: rgb(178,34,34); }
+.enscript-function-name { font-weight: bold; color: rgb(0,0,255); }
+.enscript-variable-name { font-weight: bold; color: rgb(184,134,11); }
+.enscript-keyword { font-weight: bold; color: rgb(160,32,240); }
+.enscript-reference { font-weight: bold; color: rgb(95,158,160); }
+.enscript-string { font-weight: bold; color: rgb(188,143,143); }
+.enscript-builtin { font-weight: bold; color: rgb(218,112,214); }
+.enscript-type { font-weight: bold; color: rgb(34,139,34); }
+.enscript-highlight { text-decoration: underline; color: 0; }
+</style>
+</head>
+<body id="top">
+<h1 style="margin:8px;" id="f1">assoc_container_traits.cc&nbsp;&nbsp;&nbsp;<span style="font-weight: normal; font-size: 0.5em;">[<a href="?txt">plain text</a>]</span></h1>
+<hr/>
+<div></div>
+<pre>
+<span class="enscript-comment">// -*- C++ -*-
+</span>
+<span class="enscript-comment">// Copyright (C) 2005, 2006 Free Software Foundation, Inc.
+</span><span class="enscript-comment">//
+</span><span class="enscript-comment">// This file is part of the GNU ISO C++ Library.  This library is free
+</span><span class="enscript-comment">// software; you can redistribute it and/or modify it under the terms
+</span><span class="enscript-comment">// of the GNU General Public License as published by the Free Software
+</span><span class="enscript-comment">// Foundation; either version 2, or (at your option) any later
+</span><span class="enscript-comment">// version.
+</span>
+<span class="enscript-comment">// This library is distributed in the hope that it will be useful, but
+</span><span class="enscript-comment">// WITHOUT ANY WARRANTY; without even the implied warranty of
+</span><span class="enscript-comment">// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+</span><span class="enscript-comment">// General Public License for more details.
+</span>
+<span class="enscript-comment">// You should have received a copy of the GNU General Public License
+</span><span class="enscript-comment">// along with this library; see the file COPYING.  If not, write to
+</span><span class="enscript-comment">// the Free Software Foundation, 59 Temple Place - Suite 330, Boston,
+</span><span class="enscript-comment">// MA 02111-1307, USA.
+</span>
+<span class="enscript-comment">// As a special exception, you may use this file as part of a free
+</span><span class="enscript-comment">// software library without restriction.  Specifically, if other files
+</span><span class="enscript-comment">// instantiate templates or use macros or inline functions from this
+</span><span class="enscript-comment">// file, or you compile this file and link it with other files to
+</span><span class="enscript-comment">// produce an executable, this file does not by itself cause the
+</span><span class="enscript-comment">// resulting executable to be covered by the GNU General Public
+</span><span class="enscript-comment">// License.  This exception does not however invalidate any other
+</span><span class="enscript-comment">// reasons why the executable file might be covered by the GNU General
+</span><span class="enscript-comment">// Public License.
+</span>
+<span class="enscript-comment">// Copyright (C) 2004 Ami Tavory and Vladimir Dreizin, IBM-HRL.
+</span>
+<span class="enscript-comment">// Permission to use, copy, modify, sell, and distribute this software
+</span><span class="enscript-comment">// is hereby granted without fee, provided that the above copyright
+</span><span class="enscript-comment">// notice appears in all copies, and that both that copyright notice
+</span><span class="enscript-comment">// and this permission notice appear in supporting documentation. None
+</span><span class="enscript-comment">// of the above authors, nor IBM Haifa Research Laboratories, make any
+</span><span class="enscript-comment">// representation about the suitability of this software for any
+</span><span class="enscript-comment">// purpose. It is provided &quot;as is&quot; without express or implied
+</span><span class="enscript-comment">// warranty.
+</span>
+<span class="enscript-comment">/**
+ * @file assoc_container_traits_example.cpp
+ * A basic example showing how to use container_traits for querying container types
+ *    for their behavior.
+ */</span>
+
+<span class="enscript-comment">/**
+ * The following example shows how to use container_traits in order to print
+ * out information on an associative container's behavior, e.g., its underlying
+ * data structure, or whether its objects guarantee storing entries sorted
+ * by key order.
+ */</span>
+
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;iostream&gt;</span>
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;ext/pb_ds/assoc_container.hpp&gt;</span>
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;ext/pb_ds/tag_and_trait.hpp&gt;</span>
+
+using namespace std;
+using namespace pb_ds;
+using namespace pb_ds;
+
+<span class="enscript-type">template</span>&lt;<span class="enscript-type">class</span> DS_Category&gt;
+<span class="enscript-type">void</span>
+<span class="enscript-function-name">print_container_category</span>(DS_Category);
+
+<span class="enscript-type">template</span>&lt;&gt;
+<span class="enscript-type">void</span>
+<span class="enscript-function-name">print_container_category</span>(cc_hash_tag)
+{
+  cout &lt;&lt; <span class="enscript-string">&quot;Collision-chaining hash based associative-container:&quot;</span> &lt;&lt; endl;
+}
+
+<span class="enscript-type">template</span>&lt;&gt;
+<span class="enscript-type">void</span>
+<span class="enscript-function-name">print_container_category</span>(gp_hash_tag)
+{
+  cout &lt;&lt; <span class="enscript-string">&quot;Probing hash based associative-container:&quot;</span> &lt;&lt; endl;
+}
+
+<span class="enscript-type">template</span>&lt;&gt;
+<span class="enscript-type">void</span>
+<span class="enscript-function-name">print_container_category</span>(rb_tree_tag)
+{
+  cout &lt;&lt; <span class="enscript-string">&quot;Red-black tree associative-container:&quot;</span> &lt;&lt; endl;
+}
+
+<span class="enscript-type">template</span>&lt;&gt;
+<span class="enscript-type">void</span>
+<span class="enscript-function-name">print_container_category</span>(splay_tree_tag)
+{
+  cout &lt;&lt; <span class="enscript-string">&quot;Splay tree associative-container:&quot;</span> &lt;&lt; endl;
+}
+
+<span class="enscript-type">template</span>&lt;&gt;
+<span class="enscript-type">void</span>
+<span class="enscript-function-name">print_container_category</span>(ov_tree_tag)
+{
+  cout &lt;&lt; <span class="enscript-string">&quot;Ordered-vector tree associative-container:&quot;</span> &lt;&lt; endl;
+}
+
+<span class="enscript-type">template</span>&lt;&gt;
+<span class="enscript-type">void</span>
+<span class="enscript-function-name">print_container_category</span>(list_update_tag)
+{
+  cout &lt;&lt; <span class="enscript-string">&quot;List-based associative-container:&quot;</span> &lt;&lt; endl;
+}
+
+<span class="enscript-type">void</span>
+<span class="enscript-function-name">print_erase_can_throw</span>(<span class="enscript-type">bool</span> can)
+{
+  <span class="enscript-keyword">if</span> (can)
+    {
+      cout &lt;&lt; <span class="enscript-string">&quot;Erase can throw&quot;</span> &lt;&lt; endl;
+      <span class="enscript-keyword">return</span>;
+    }
+  cout &lt;&lt; <span class="enscript-string">&quot;Erase cannot throw&quot;</span> &lt;&lt; endl;
+}
+
+<span class="enscript-type">void</span>
+<span class="enscript-function-name">print_order_preserving</span>(<span class="enscript-type">bool</span> does)
+{
+  <span class="enscript-keyword">if</span> (does)
+    {
+      cout &lt;&lt; <span class="enscript-string">&quot;Preserves order&quot;</span> &lt;&lt; endl;
+      <span class="enscript-keyword">return</span>;
+    }
+  cout &lt;&lt; <span class="enscript-string">&quot;Does not preserve order&quot;</span> &lt;&lt; endl;
+}
+
+<span class="enscript-type">template</span>&lt;<span class="enscript-type">class</span> Invalidation_Guarantee&gt;
+<span class="enscript-type">void</span>
+<span class="enscript-function-name">print_invalidation_guarantee</span>(Invalidation_Guarantee);
+
+<span class="enscript-type">template</span>&lt;&gt;
+<span class="enscript-type">void</span>
+<span class="enscript-function-name">print_invalidation_guarantee</span>(basic_invalidation_guarantee)
+{
+  cout &lt;&lt; <span class="enscript-string">&quot;Guarantees only that found references, pointers, and &quot;</span>
+    <span class="enscript-string">&quot;iterators are valid as long as the container object is not &quot;</span>
+    <span class="enscript-string">&quot;modified&quot;</span> &lt;&lt; endl;
+}
+
+<span class="enscript-type">template</span>&lt;&gt;
+<span class="enscript-type">void</span>
+<span class="enscript-function-name">print_invalidation_guarantee</span>(point_invalidation_guarantee)
+{
+  cout &lt;&lt; <span class="enscript-string">&quot;Guarantees that found references, pointers, and &quot;</span>
+    <span class="enscript-string">&quot;point_iterators are valid even if the container object &quot;</span>
+    <span class="enscript-string">&quot;is modified&quot;</span> &lt;&lt; endl;
+}
+
+<span class="enscript-type">template</span>&lt;&gt;
+<span class="enscript-type">void</span>
+<span class="enscript-function-name">print_invalidation_guarantee</span>(range_invalidation_guarantee)
+{
+  cout &lt;&lt; <span class="enscript-string">&quot;Guarantees that iterators remain valid even if the &quot;</span>
+    <span class="enscript-string">&quot;container object is modified&quot;</span> &lt;&lt; endl;
+}
+
+<span class="enscript-type">void</span>
+<span class="enscript-function-name">print_reverse_iteration</span>(<span class="enscript-type">bool</span> does)
+{
+  <span class="enscript-keyword">if</span> (does)
+    {
+      cout &lt;&lt; <span class="enscript-string">&quot;Supports reverse iteration&quot;</span> &lt;&lt; endl;
+      <span class="enscript-keyword">return</span>;
+    }
+  cout &lt;&lt; <span class="enscript-string">&quot;Does not support reverse iteration&quot;</span> &lt;&lt; endl;
+}
+
+<span class="enscript-type">template</span>&lt;<span class="enscript-type">class</span> DS_Traits&gt;
+<span class="enscript-type">void</span>
+<span class="enscript-function-name">print_container_attributes</span>()
+{
+  <span class="enscript-comment">// First print out the data structure category.
+</span>  print_container_category(typename DS_Traits::container_category());
+
+  <span class="enscript-comment">// Now print the attributes of the container.
+</span>  print_erase_can_throw(DS_Traits::erase_can_throw);
+  print_order_preserving(DS_Traits::order_preserving);
+  print_invalidation_guarantee(typename DS_Traits::invalidation_guarantee());
+  print_reverse_iteration(DS_Traits::reverse_iteration);
+
+  cout &lt;&lt; endl &lt;&lt; endl;
+}
+
+<span class="enscript-type">int</span>
+<span class="enscript-function-name">main</span>()
+{
+  {
+    <span class="enscript-comment">// Print the attributes of a collision-chaining hash table.
+</span>    <span class="enscript-type">typedef</span> cc_hash_table&lt; <span class="enscript-type">int</span>, <span class="enscript-type">char</span>&gt; t;
+    print_container_attributes&lt;container_traits&lt;t&gt; &gt;();
+  }
+
+  {
+    <span class="enscript-comment">// Print the attributes of a (general) probing hash table.
+</span>    <span class="enscript-type">typedef</span> gp_hash_table&lt; <span class="enscript-type">int</span>, <span class="enscript-type">char</span>&gt; t;
+    print_container_attributes&lt;container_traits&lt;t&gt; &gt;();
+  }
+
+  {
+    <span class="enscript-comment">// Print the attributes of a red-black tree.
+</span>    <span class="enscript-type">typedef</span> tree&lt; <span class="enscript-type">int</span>, <span class="enscript-type">char</span>&gt; t;
+    print_container_attributes&lt;container_traits&lt;t&gt; &gt;();
+  }
+
+  {
+    <span class="enscript-comment">// Print the attributes of a splay tree.
+</span>    <span class="enscript-type">typedef</span>
+      tree&lt;
+      <span class="enscript-type">int</span>,
+      <span class="enscript-type">char</span>,
+      less&lt;<span class="enscript-type">int</span>&gt;,
+      splay_tree_tag&gt;
+      t;
+
+    print_container_attributes&lt;container_traits&lt;t&gt; &gt;();
+  }
+
+  {
+    <span class="enscript-comment">// Print the attributes of an ordered-vector tree.
+</span>    <span class="enscript-type">typedef</span>
+      tree&lt;
+      <span class="enscript-type">int</span>,
+      <span class="enscript-type">char</span>,
+      less&lt;<span class="enscript-type">int</span>&gt;,
+      ov_tree_tag&gt;
+      t;
+    print_container_attributes&lt;container_traits&lt;t&gt; &gt;();
+  }
+
+  {
+    <span class="enscript-comment">// Print the attributes of an list-based container.
+</span>    <span class="enscript-type">typedef</span> list_update&lt; <span class="enscript-type">int</span>, <span class="enscript-type">char</span>&gt; t;
+    print_container_attributes&lt;container_traits&lt;t&gt; &gt;();
+  }
+
+  <span class="enscript-keyword">return</span> 0;
+}
+</pre>
+<hr />
+</body></html>

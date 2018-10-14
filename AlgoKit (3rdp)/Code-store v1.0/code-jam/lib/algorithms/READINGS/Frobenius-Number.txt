@@ -1,0 +1,87 @@
+Frobenius Number
+@ http://www.cnblogs.com/drizzlecrj/archive/2008/05/01/922561.html
+
+	To set n-(≥ 2) positive integers a1, a2, ..., an, their largest male factor is 1. Seek to make indefinite equation a1x1 + a2x2 + ... + anxn = F there is no non-negative integer solutions (x1, x2, ..., xn), the largest positive integer F. This is referred to as a1, a2, ..., an the maximum number of non-table, denoted by F (a1, a2, ..., an). Can find some information about the Frobenius Number The wolfram on. In addition, a great many problems with the Frobenius Number, such as the Coin Problem, McNugget Number, 10.0 Stamp, Problem and so on. 
+
+	First, when the figure reached 1 
+
+	This case, any non-negative integer can be expressed 
+
+	Second, when the figure reached 2, the introduction of formula 
+
+	If (a, b) = 1, a> = 1, b> = 1, you can not use a * x + b * y (x> = 0, y> = 0) the largest integer 
+	F (a, b) = a * the bab 
+	And can not use a * x + b * y (x> = 0, y> = 0) the number of non-negative integers (a-1) * (b-1) / 2 
+
+	Proof of this formula in many ways, can see the dawn of Yuan Hao " px + qy class proposition " 
+	Another one to prove that you can see wiskey blog notes 
+
+	Third, when the figure reached 3 to sort out some of the conclusions that I see from the paper. 
+
+	3.1 F (a, b, c) <= ab / (a, b) + c * (a, b) - a - b - c, and c> ab / (a, b) ^ 2 - a / (a, b) - b / (a, b) was established. 
+
+	Corollary 1: If (a, b) = 1, c> F (a, b), then F is (a, b, c) = F (a, b) the 
+	Corollary 2: Let a = p * u, b = u * q, c = p * q, p> 0, q> 0, u> 0, (p, u) = (p, q) = (q, u = 1) of F (a, b, c) = 2 * p * q * u - q * u - p * q - p * u 
+
+
+	Four, when the figure reached 4, I looked up the number of papers in at least some special cases of the following reasoning. 
+
+	4.1 Let (a1, a2, a3) = 1, (a1, a2) = d, a1 = d * a1 ', a2 = d * a2', 3 Diophantine equation a1 * x1 + a2 * x2 + a3, * x3 = n all the solutions can be expressed as 
+
+	x1 = X1 + a2 '* t1, - u1 * a3, * t2, 
+	X2 = X2 - a1 '* t1, - u2 * a3, * t2, 
+	x3 = X3 + d * t2, 
+
+	Where X1, X2, X3 is a solution of 3 yuan indeterminate equation, t1, t2 for any integer, u1, u2 meet a1'u1 + a2'u2 = 1 
+
+	4.2 Let (a1, a2, a3, a4) = 1, (a1, a2, a3) = a1 = d * a1 ', a2 = d * a2', a3 = d * a3 ', (a1' a2 ') = d', a1 '= d' * a1'', a2 '= d' * a2'', 4 Diophantine equation 
+	a1 * x1 + a2 * x2 + a3, * x3 + a4, * x4, = n, all solutions can be expressed as 
+
+	x1 = X1 + a2'' * t1, - u1 '* a3,' * t2 - u1 * a4, * t3 
+	X2 = X2 - a1'' * t1, - u2 '* a3, * t2 - u2 * a4, * t3 
+	x3 = X3 + d '* t2 - u3 * a4, * t3 
+	x4 = X4 + d * t3 
+
+	Where X1, X2, X3, X4, is a set of solutions of Diophantine Equations, t1, t2, t3, for any integer, u1, u2, u3 meet a1 '* u1 + a2' * u2 + a3 '* u3 = 1 , u1 ', u2' meet a1'' * u1 '+ a2'' * u2' = 1. 
+
+	Corollary: If x1, x2, x3, x4, above Diophantine Equations as a set of solutions, easy to get 
+	x1, x2, x3, is also above Diophantine equation solution. 
+
+	4.3 in two of them 4 yuan Diophantine equation, if a1> = a2, a1 '> = a4, is 
+	F (a1, a2, a3, a4) <= 2 * a1 * a2 * a3 / (a1, a2, a3) ^ 2 + a4 * (a1, a2, a3)-a1-a2-a3-a4 
+	And when 
+	a4> 4 * a1 * a2 * a3 / (a1, a2, a3) ^ 2 - a1 / (a1, a2, a3) - 2 * a2 / (a1, a2, a3) -2 * a3 / (a1, a2 and a3) 
+	When 
+	F (a1, a2, a3, a4) = 2 * a1 * a2 * a3 + a4 * (a1, a2, a3)-a1-a2-a3-a4 
+
+	5, when the number n> 4 after, at least the following theorem 
+
+	5.1 F (a1, ..., a n-1, an) = d * F (a1 / d, ..., a n-1 / d, an) + (d-1) an 
+	Where d = (a1, ..., a n - 1) 
+
+	5.2 F (a1, ..., a n-1, an) <= d * F (a1 / d, ..., a n-1 / d) + (d-1) * an 
+	An = a1 / * b1 + ... + a n-1 / d * b n-1, bi> = 0 (i = 1, ..., s-1) are integers, equality , that is, F (a1, ..., a n-1, an) = d * F (a1 / d, ..., a n-1 / d) + (d-1) * an 
+	Where d = (a1, ..., a n - 1) 
+
+	Corollary 1: If an> F (a1 / d, ..., a n-1 / d), then F (a1, ..., a n-1, an) = d * F (a1 / d,. .., a n-1 / d) + (d-1) * an. Where d = (a1, ..., a n - 1) 
+
+	Corollary 2: If (a1, ..., a n-1) = 1, an = a1 * b1 + ... + a n-1 * b n-1, bi> = 0 (i = 1, ... , n-1) are integers, then F (a1, ..., a n-1, an) = F (a1, ..., a n-1), In particular, when an> F (a1, , ..., a n-1), the conclusion has also set up 
+
+	Corollary 3: Let ai = b1 ... b the i-1 b i +1 ... bn, bi> 0, (of bi, bj) = 1 (i not equal to j), (i = 1, ... , s), 
+	F (a1, ..., a n - 1, an) <= (n - 1) * b1 * b2 * ... * bn-sigma (ai) 
+
+	End in mind: 
+	The Frobenius Number topic, I found the following two questions (other topics is welcome to add) 
+	A new the Change Problem 
+	http://acm.hdu.edu.cn/showproblem.php?pid=1792 
+	Solution: This is the two-dimensional version of the Frobeinus Number, F (a, b) = a * b - a - b N (a, b) = (a - 1) * (b - 1) / 2 
+	(Note: N (a1, a2, ... an) a1x1 + a2x2 + ... + anxn can not be expressed in the number of number of) 
+	2. The Frobenius 
+	http://acm.hnu.cn:8080/online/?action=problem&type=show&id=11012&courseid=0 
+	Solution: This is the Frobenius Number four-dimensional version of a topic so that demand F (a, b, c, d) and N (a, b, c, d), which limits the 
+	a, b, c, d in the range [0,10000], and only asked to return to less than 106 F (a, b, c, d) and N (a, b, c, d) If F (a , b, c, d) 
+	More than 106, the output is -1. This subject can use the recursive get, we may assume that f [i] is true that i this number to a, b, c, d said, 
+	Then F [0] = true, F [i] = F [i - a] | F [i - b] | F [i - c] | F [i - d] (i> = max (a, b , c, d)). Statistics the number of N (a, b, c, d) can be less than 106. How to solve F (a, b, c, d) it? To do the subject to see the sample output, F (a, b, c, d) 
+	Is exactly N (a, b, c, d) twice the minus 1, and then contact F (a, b) = a * b - a - b, N (a, b) = (a - 1) * ( b - 1) / 2, just 
+	F (a, b) = 2 * N (a, b) - 1. So they use 2 * N (a, b, c, d) - 1 to 106 for comparison, even after a (later discovered that there is a problem, is not a simple twice by a relationship, such as a = 3, b = 4 c = 5, d = 6, 1 and 2 can not be expressed, namely N-(3, 4, 5, 6) = 2, F (3, 4, 5, 6) = 2 and is not equal to 2 * F (3, 4, 5, 6) -1. Han in the end, I do not know :-(). solving F (a, b, c, d) In fact, we can limit the scope of 106 +10 4 or less, we can assert that, if found within 106 +10 4 can not be said that the number does not exceed 106, then the back of all greater than 106 the number can be expressed, and this should be well understood :-) evidence to the contrary, if a number can not be said, then the number minus a, b, c, d can not be expressed, and so on. 
+	At this point, at least this problem is successfully solved. However, if the scope is removed, it is NP problem, it is bad to do that.

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="GEListenerImpl.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="1109" topLine="195" />
+	</File>
+	<File name="GEListenerImpl.h" open="0" top="0" tabpos="3">
+		<Cursor position="543" topLine="10" />
+	</File>
+	<File name="GERunner.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="129" topLine="0" />
+	</File>
+	<File name="GEngine\GCamera.cpp" open="1" top="0" tabpos="10">
+		<Cursor position="54" topLine="6" />
+	</File>
+	<File name="GEngine\GCamera.h" open="1" top="1" tabpos="11">
+		<Cursor position="149" topLine="0" />
+	</File>
+	<File name="GEngine\GCubeGrid.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="952" topLine="22" />
+	</File>
+	<File name="GEngine\GCylinder.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="432" topLine="0" />
+	</File>
+	<File name="GEngine\GCylinder.h" open="0" top="0" tabpos="5">
+		<Cursor position="388" topLine="0" />
+	</File>
+	<File name="GEngine\GObject.h" open="1" top="0" tabpos="7">
+		<Cursor position="350" topLine="0" />
+	</File>
+	<File name="GEngine\GQuaternion.h" open="1" top="0" tabpos="6">
+		<Cursor position="521" topLine="9" />
+	</File>
+	<File name="GEngine\GShape.h" open="1" top="0" tabpos="9">
+		<Cursor position="306" topLine="0" />
+	</File>
+	<File name="GEngine\GSphere.cpp" open="1" top="0" tabpos="5">
+		<Cursor position="275" topLine="0" />
+	</File>
+	<File name="GEngine\GSphere.h" open="1" top="0" tabpos="8">
+		<Cursor position="73" topLine="3" />
+	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="134" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>

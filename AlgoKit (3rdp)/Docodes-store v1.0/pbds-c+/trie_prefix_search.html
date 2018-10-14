@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>trie_prefix_search.cc</title>
+<style type="text/css">
+.enscript-comment { font-style: italic; color: rgb(178,34,34); }
+.enscript-function-name { font-weight: bold; color: rgb(0,0,255); }
+.enscript-variable-name { font-weight: bold; color: rgb(184,134,11); }
+.enscript-keyword { font-weight: bold; color: rgb(160,32,240); }
+.enscript-reference { font-weight: bold; color: rgb(95,158,160); }
+.enscript-string { font-weight: bold; color: rgb(188,143,143); }
+.enscript-builtin { font-weight: bold; color: rgb(218,112,214); }
+.enscript-type { font-weight: bold; color: rgb(34,139,34); }
+.enscript-highlight { text-decoration: underline; color: 0; }
+</style>
+</head>
+<body id="top">
+<h1 style="margin:8px;" id="f1">trie_prefix_search.cc&nbsp;&nbsp;&nbsp;<span style="font-weight: normal; font-size: 0.5em;">[<a href="?txt">plain text</a>]</span></h1>
+<hr/>
+<div></div>
+<pre>
+<span class="enscript-comment">// -*- C++ -*-
+</span>
+<span class="enscript-comment">// Copyright (C) 2005, 2006 Free Software Foundation, Inc.
+</span><span class="enscript-comment">//
+</span><span class="enscript-comment">// This file is part of the GNU ISO C++ Library.  This library is free
+</span><span class="enscript-comment">// software; you can redistribute it and/or modify it under the terms
+</span><span class="enscript-comment">// of the GNU General Public License as published by the Free Software
+</span><span class="enscript-comment">// Foundation; either version 2, or (at your option) any later
+</span><span class="enscript-comment">// version.
+</span>
+<span class="enscript-comment">// This library is distributed in the hope that it will be useful, but
+</span><span class="enscript-comment">// WITHOUT ANY WARRANTY; without even the implied warranty of
+</span><span class="enscript-comment">// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+</span><span class="enscript-comment">// General Public License for more details.
+</span>
+<span class="enscript-comment">// You should have received a copy of the GNU General Public License
+</span><span class="enscript-comment">// along with this library; see the file COPYING.  If not, write to
+</span><span class="enscript-comment">// the Free Software Foundation, 59 Temple Place - Suite 330, Boston,
+</span><span class="enscript-comment">// MA 02111-1307, USA.
+</span>
+<span class="enscript-comment">// As a special exception, you may use this file as part of a free
+</span><span class="enscript-comment">// software library without restriction.  Specifically, if other files
+</span><span class="enscript-comment">// instantiate templates or use macros or inline functions from this
+</span><span class="enscript-comment">// file, or you compile this file and link it with other files to
+</span><span class="enscript-comment">// produce an executable, this file does not by itself cause the
+</span><span class="enscript-comment">// resulting executable to be covered by the GNU General Public
+</span><span class="enscript-comment">// License.  This exception does not however invalidate any other
+</span><span class="enscript-comment">// reasons why the executable file might be covered by the GNU General
+</span><span class="enscript-comment">// Public License.
+</span>
+<span class="enscript-comment">// Copyright (C) 2004 Ami Tavory and Vladimir Dreizin, IBM-HRL.
+</span>
+<span class="enscript-comment">// Permission to use, copy, modify, sell, and distribute this software
+</span><span class="enscript-comment">// is hereby granted without fee, provided that the above copyright
+</span><span class="enscript-comment">// notice appears in all copies, and that both that copyright notice
+</span><span class="enscript-comment">// and this permission notice appear in supporting documentation. None
+</span><span class="enscript-comment">// of the above authors, nor IBM Haifa Research Laboratories, make any
+</span><span class="enscript-comment">// representation about the suitability of this software for any
+</span><span class="enscript-comment">// purpose. It is provided &quot;as is&quot; without express or implied
+</span><span class="enscript-comment">// warranty.
+</span>
+<span class="enscript-comment">/**
+ * @file trie_prefix_search_example.cpp
+ * An example showing how to use a trie for searching
+ *    for words with a given prefix.
+ */</span>
+
+<span class="enscript-comment">/**
+ * This example shows how to use a PATRICIA trie for searching
+ * for words with a given prefix.
+ */</span>
+
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;cassert&gt;</span>
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;iostream&gt;</span>
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;ext/pb_ds/assoc_container.hpp&gt;</span>
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;ext/pb_ds/trie_policy.hpp&gt;</span>
+#<span class="enscript-reference">include</span> <span class="enscript-string">&lt;ext/pb_ds/tag_and_trait.hpp&gt;</span>
+
+using namespace std;
+using namespace pb_ds;
+using namespace pb_ds;
+
+<span class="enscript-comment">// A PATRICIA trie with a prefix-search node-updator type. Note that
+</span><span class="enscript-comment">// since the node updator is trie_prefix_search_node_update, then the
+</span><span class="enscript-comment">// container includes its method prefix_range.
+</span><span class="enscript-type">typedef</span> null_mapped_type		mapped_type;
+<span class="enscript-type">typedef</span> string_trie_e_access_traits&lt;&gt; 	cmp_fn;
+<span class="enscript-type">typedef</span> pat_trie_tag 			tag_type;
+
+<span class="enscript-type">typedef</span> trie&lt;string, mapped_type, cmp_fn, tag_type, 
+	     trie_prefix_search_node_update&gt; trie_type;
+
+<span class="enscript-comment">// The following helper function takes a trie object and r_key, a
+</span><span class="enscript-comment">// const reference to a string, and prints all entries whose key
+</span><span class="enscript-comment">// includes r_key as a prefix.
+</span><span class="enscript-type">void</span>
+<span class="enscript-function-name">print_prefix_match</span>(<span class="enscript-type">const</span> trie_type&amp; t, <span class="enscript-type">const</span> string&amp; key)
+{
+  <span class="enscript-type">typedef</span> trie_type::const_iterator 		const_iterator;
+  <span class="enscript-type">typedef</span> pair&lt;const_iterator, const_iterator&gt; 	pair_type;
+
+  cout &lt;&lt; <span class="enscript-string">&quot;All keys whose prefix matches \&quot;&quot;</span> &lt;&lt; key &lt;&lt; <span class="enscript-string">&quot;\&quot;:&quot;</span> &lt;&lt; endl;
+
+  <span class="enscript-type">const</span> pair_type match_range = t.prefix_range(key);
+  <span class="enscript-keyword">for</span> (const_iterator it = match_range.first; it != match_range.second; ++it)
+    cout &lt;&lt; *it &lt;&lt; <span class="enscript-string">' '</span>;
+  cout &lt;&lt; endl;
+}
+
+<span class="enscript-type">int</span> <span class="enscript-function-name">main</span>()
+{
+  trie_type t;
+
+  <span class="enscript-comment">// Insert some entries.
+</span>  assert(t.insert(<span class="enscript-string">&quot;I&quot;</span>).second == true);
+  assert(t.insert(<span class="enscript-string">&quot;wish&quot;</span>).second == true);
+  assert(t.insert(<span class="enscript-string">&quot;that&quot;</span>).second == true);
+  assert(t.insert(<span class="enscript-string">&quot;I&quot;</span>).second == false);
+  assert(t.insert(<span class="enscript-string">&quot;could&quot;</span>).second == true);
+  assert(t.insert(<span class="enscript-string">&quot;ever&quot;</span>).second == true);
+  assert(t.insert(<span class="enscript-string">&quot;see&quot;</span>).second == true);
+  assert(t.insert(<span class="enscript-string">&quot;a&quot;</span>).second == true);
+  assert(t.insert(<span class="enscript-string">&quot;poem&quot;</span>).second == true);
+  assert(t.insert(<span class="enscript-string">&quot;lovely&quot;</span>).second == true);
+  assert(t.insert(<span class="enscript-string">&quot;as&quot;</span>).second == true);
+  assert(t.insert(<span class="enscript-string">&quot;a&quot;</span>).second == false);
+  assert(t.insert(<span class="enscript-string">&quot;trie&quot;</span>).second == true);
+
+  <span class="enscript-comment">// Now search for prefixes.
+</span>  print_prefix_match(t, <span class="enscript-string">&quot;&quot;</span>);
+  print_prefix_match(t, <span class="enscript-string">&quot;a&quot;</span>);
+  print_prefix_match(t, <span class="enscript-string">&quot;as&quot;</span>);
+  print_prefix_match(t, <span class="enscript-string">&quot;ad&quot;</span>);
+  print_prefix_match(t, <span class="enscript-string">&quot;t&quot;</span>);
+  print_prefix_match(t, <span class="enscript-string">&quot;tr&quot;</span>);
+  print_prefix_match(t, <span class="enscript-string">&quot;trie&quot;</span>);
+  print_prefix_match(t, <span class="enscript-string">&quot;zzz&quot;</span>);
+
+  <span class="enscript-keyword">return</span> 0;
+}
+
+</pre>
+<hr />
+</body></html>

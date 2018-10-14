@@ -1,0 +1,39 @@
+﻿Построение начато 17.11.2011 19:30:16.
+     1>Проект "D:\!My Docs\!Programming\Project\Temp Project\MaxSumSubArrParallel ' Using Kadane\MaxSumSubArr\MaxSumSubArr.vcxproj" в узле 2 (целевые объекты build).
+     1>InitializeBuildStatus:
+         Создание "Debug\MaxSumSubArr.unsuccessfulbuild", так как было задано "AlwaysCreate".
+       GenerateTargetFrameworkMonikerAttribute:
+       Целевой объект "GenerateTargetFrameworkMonikerAttribute" пропускается, так как все выходные файлы актуальны по отношению к входным.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /openmp /Fo"Debug\\" /Fd"Debug\vc100.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt MaxSumSubArr.cpp /clr:nostdlib 
+         MaxSumSubArr.cpp
+     1>MaxSumSubArr.cpp(64): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(304): см. объявление "scanf"
+     1>MaxSumSubArr.cpp(144): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(249): см. объявление "freopen"
+     1>MaxSumSubArr.cpp(145): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(249): см. объявление "freopen"
+     1>MaxSumSubArr.cpp(148): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(304): см. объявление "scanf"
+     1>MaxSumSubArr.cpp(160): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(249): см. объявление "freopen"
+     1>MaxSumSubArr.cpp(163): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(304): см. объявление "scanf"
+     1>MaxSumSubArr.cpp(169): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(304): см. объявление "scanf"
+         Для всех выходных данных обновления не требуется.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\!My Docs\!Programming\Project\Temp Project\MaxSumSubArrParallel ' Using Kadane\Debug\MaxSumSubArr.exe" /INCREMENTAL /NOLOGO /MANIFEST /ManifestFile:"Debug\MaxSumSubArr.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\!My Docs\!Programming\Project\Temp Project\MaxSumSubArrParallel ' Using Kadane\Debug\MaxSumSubArr.pdb" /ASSEMBLYDEBUG /TLBID:1 /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 Debug\AssemblyInfo.obj
+         Debug\MaxSumSubArr.obj
+         "Debug\.NETFramework,Version=v4.0.AssemblyAttributes.obj"
+         MaxSumSubArr.vcxproj -> D:\!My Docs\!Programming\Project\Temp Project\MaxSumSubArrParallel ' Using Kadane\Debug\MaxSumSubArr.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\!My Docs\!Programming\Project\Temp Project\MaxSumSubArrParallel ' Using Kadane\Debug\MaxSumSubArr.exe;#1" /manifest Debug\MaxSumSubArr.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Файл "Debug\MaxSumSubArr.unsuccessfulbuild" удаляется.
+         Обращение к "Debug\MaxSumSubArr.lastbuildstate".
+     1>Построение проекта "D:\!My Docs\!Programming\Project\Temp Project\MaxSumSubArrParallel ' Using Kadane\MaxSumSubArr\MaxSumSubArr.vcxproj" завершено (целевые объекты build).
+
+Построение успешно завершено.
+
+Затраченное время: 00:00:03.81
