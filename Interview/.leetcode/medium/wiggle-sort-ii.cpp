@@ -17,7 +17,7 @@ Can you do it in O(n) time and/or in-place with O(1) extra space?
  */
 
 #include <bits/stdc++.h>
-class Solution {
+class Solution wwwwwwwwwww {
    public:
     void wiggleSort(vector<int>& nums) {
         int n = nums.size();
